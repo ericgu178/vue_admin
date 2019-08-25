@@ -76,10 +76,9 @@ export default {
                         subs: [
                             {
                                 icon:'file-word',
-                                index: 'auto_say',
-                                title: '自动回复',
+                                index: 'wechat/wechat_reply',
+                                title: '关键词回复',
                             },
-                            
                         ],
                         
                     },

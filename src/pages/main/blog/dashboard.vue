@@ -74,7 +74,7 @@ export default {
                     type: 'line'
                 }]
             })      
-        },1500)
+        },2000)
     },
     methods:{
     }

@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css' //这个样式必须引入
 import {notification} from "ant-design-vue/es"; //单独引入message消息提示模块
 
 
-const base_url   =   "http://ericgu178/";
+const base_url   =   "http://ericgu178.com/";
 
 
 
