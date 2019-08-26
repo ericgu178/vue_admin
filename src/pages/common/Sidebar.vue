@@ -79,8 +79,12 @@ export default {
                                 index: 'wechat/wechat_reply',
                                 title: '关键词回复',
                             },
+                            {
+                                icon:'folder',
+                                index: 'wechat/wechat_material',
+                                title: '微信素材',
+                            },
                         ],
-
                     },
                     {
                         icon: 'setting',
@@ -95,6 +99,16 @@ export default {
 
                         ],
 
+					},
+					{
+                        icon: 'frown',
+                        index: '/403',
+                        title: '403',
+					},
+					{
+                        icon: 'frown',
+                        index: '/401',
+                        title: '401',
                     },
                  ]
         }

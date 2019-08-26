@@ -1,6 +1,6 @@
 <template>
   <div>
-	<a-button type="primary" size="large" @click="visible = true;form = {};is_add=true" style="margin-top:10px;margin-bottom:20px;">添加关键词</a-button>
+	<a-button type="primary" size="large" @click="visible = true;form = {};is_add=true;title='添加关键词'" style="margin-top:10px;margin-bottom:20px;">添加关键词</a-button>
     <a-table :columns="columns" :dataSource="data" bordered  @change="handleTableChange">
         <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
         <span slot="handle" slot-scope="text, record">
@@ -8,7 +8,7 @@
         </span>
     </a-table>
 	<a-modal
-            title="修改关键词回复"
+            :title="title"
             v-model="visible"
             okText = '保存'
             cancelText = '取消'
@@ -70,7 +70,8 @@ export default {
             columns,
 			visible:false,
 			form:[],
-			is_add:false
+      		is_add:false,
+      		title:'添加关键词'
         }
     },
     created(){
@@ -90,7 +91,8 @@ export default {
         edit:function(data) {
 			this.visible = true
 			this.form = data
-			this.is_add = false
+      		this.is_add = false
+      		this.title = `修改关键词：${data.receive_content}`
 		},
 		edit_truly:function(is) {
 			if (is) {
@@ -98,7 +100,6 @@ export default {
 			} else {
 				var url = `${this.request.base_url}/wechat_admin/wechat_reply/edit`
 			}
-			console.log(this.form)
 			this.request.request_post(
 				url,
             	res=>{
@@ -111,6 +112,8 @@ export default {
 				},
 				this.form
 			)
+
+			this.visible = false;
 		}
     }
 }

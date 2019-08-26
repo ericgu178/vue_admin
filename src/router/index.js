@@ -78,6 +78,14 @@ export default new Router({
                         title:`关键词回复`,
                         title_desc:`关键词回复 | ${base_title}`
                     }
+				},
+                {
+                    path:'/wechat/wechat_material',
+                    component: resolve => require(['../pages/main/wechat/wechat_material.vue'], resolve),
+                    meta:{
+                        title:`微信素材`,
+                        title_desc:`微信素材 | ${base_title}`
+                    }
                 },
             ]
         },
