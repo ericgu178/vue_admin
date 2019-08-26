@@ -7,10 +7,12 @@
         	:dataSource="material_list"
   	    >
         	<a-list-item slot="renderItem" slot-scope="item, index">
-          	<a-card :title="item.create_time">
-              <!-- 图片不显示的时候展示一张错误时的图片 -->
-              <img :src="item.file_path" alt="" @click="showImage(item.file_path)" class="index_list" onerror="this.src='http://ericgu178.com/static/images/404.jpg'">
-            </a-card>
+				<a-card :title="item.title">
+              		<img :src="item.file_path" alt="" @click="showImage(item.file_path,item.media_id)" class="index_list" onerror="this.src='http://ericgu178.com/static/images/404.jpg'">
+  					<a-card-meta :title="item.media_id" style="padding-top:20px;">
+  					  <template slot="description">{{item.create_time}}</template>
+  					</a-card-meta>
+				</a-card>
         	</a-list-item>
   	    </a-list>
         <!-- 分页 -->
@@ -18,7 +20,7 @@
         <!-- 模态框 -->
         <a-modal
           v-model="visible"
-          okText="复制图片链接"
+          okText="复制media_id"
           cancelText="关闭"
           @ok="copy_filepath"
         >
@@ -73,13 +75,14 @@ export default {
 		  	previewVisible: false,
           	previewImage: '',
           	// 保存提交的
-          	fileList: [],
+            fileList: [],
+            media_id:''
     	}
   	},
   	created() {
     	this.$http({
         	method: 'get',
-        	url: `${this.HOST}/admin/material/get`,
+        	url: `${this.HOST}/wechat_admin/wechat_material/get`,
         	dataType:"json",
             data:{},
       	}).then(res=>{
@@ -87,12 +90,14 @@ export default {
                 this.paginate.total = res.data.paginate.count
                 this.paginate.pageSize = res.data.paginate.pageSize
                 res.data.data.filter(v=>{
-                    this.material_list.push({
-				  	    create_time:v.create_time,
-                        file_path:`${this.HOST}${v.filepath}`,
-                        material_id:v.id
-				  	})
-                })
+                	this.material_list.push({
+					  	create_time:v.create_time,
+                    	file_path:`${v.material_url}`,
+                    	media_id:v.media_id,
+                    	title:v.material_title,
+                	  	material_id:v.id
+					})
+            	})
 				return false
             }
 		  	this.$message.error(res.data.msg)
@@ -101,14 +106,15 @@ export default {
         })
     },
     methods:{
-        showImage:function(filepath){
+        showImage:function(filepath,media_id){
             this.visible = true
             this.show_filepath = filepath
+            this.media_id = media_id
         },
         copy_filepath:function(){
             this.visible = false
             var oInput = document.createElement("input");
-            oInput.value = this.show_filepath;
+            oInput.value = this.media_id;
             document.body.appendChild(oInput);
             oInput.select(); // 选择对象
             document.execCommand("Copy"); // 执行浏览器复制命令
@@ -119,7 +125,7 @@ export default {
         onChange(pageNumber) {
 		  	this.$http({
         		method: 'get',
-        		url: `${this.HOST}/admin/material/get?page=${pageNumber}`,
+        		url: `${this.HOST}/wechat_admin/wechat_material/get?page=${pageNumber}`,
         		dataType:"json",
       		}).then(res=>{
  		      	if (res.data.code == 0) {
@@ -129,7 +135,9 @@ export default {
               		res.data.data.filter(v=>{
                 		this.material_list.push({
 						  	create_time:v.create_time,
-                		  	file_path:`${this.HOST}${v.filepath}`,
+                        	file_path:`${v.material_url}`,
+                        	media_id:v.media_id,
+                        	title:v.material_title,
                 		  	material_id:v.id
 						})
             		})
@@ -182,7 +190,7 @@ export default {
 			this.request.request_get(
 				`${this.request.base_url}/wechat_admin/wechat_material/syncMaterial`,
 				response=>{
-					console.log(response.data)
+					this.$message.info(response.data.msg)
 				},error=>{
 					this.$message.error('网络错误')
 				}
