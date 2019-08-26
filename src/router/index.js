@@ -7,7 +7,7 @@ export default new Router({
     routes: [
         {
             path: '/',
-            meta: { 
+            meta: {
                 title: `首页`,
                 title_desc:`首页 | ${base_title}`
             },

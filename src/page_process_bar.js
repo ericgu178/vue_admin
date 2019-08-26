@@ -23,7 +23,10 @@ router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         localStorage.removeItem('userinfo');
     }
-    let userinfo = JSON.parse(localStorage.getItem('userinfo'));
+    let userinfo = null
+    if (localStorage.getItem('userinfo') != null) {
+      userinfo = JSON.parse(localStorage.getItem('userinfo'));
+    }
     let toTime = new Date().getTime()
     if (userinfo == null && to.path != '/login') {
         message.info('登录错误，请重新登录')
@@ -42,12 +45,13 @@ router.beforeEach((to, from, next) => {
     // localStorage.setItem("userinfo",JSON.stringify(userinfo))
 
     // 页面不存在
+    console.log(to)
     if (to.matched.length == 0) {
         next({path: '/404'})
     }
 
     startTime = new Date().getTime()
-    
+
     NProgress.start();
     next()
 });

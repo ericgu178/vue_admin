@@ -44,7 +44,7 @@ export default {
                             {
                                 icon:'area-chart',
                                 index: 'dashboard',
-                                title: 'Dashboard', 
+                                title: 'Dashboard',
                             },
                             {
                                 icon:'file-word',
@@ -80,7 +80,7 @@ export default {
                                 title: '关键词回复',
                             },
                         ],
-                        
+
                     },
                     {
                         icon: 'setting',
@@ -92,9 +92,9 @@ export default {
                                 index: 'menu',
                                 title: '菜单管理',
                             },
-                            
+
                         ],
-                        
+
                     },
                  ]
         }
