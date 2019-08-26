@@ -1,7 +1,7 @@
 <template>
   <div>
 	<a-button type="primary" size="large" @click="visible = true;form = {};is_add=true;title='添加关键词'" style="margin-top:10px;margin-bottom:20px;">添加关键词</a-button>
-    <a-table :columns="columns" :dataSource="data" bordered  @change="handleTableChange">
+    <a-table :columns="columns" :dataSource="data" bordered :pagination="pagination"  @change="handleTableChange">
         <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
         <span slot="handle" slot-scope="text, record">
             <a-button type="primary" @click="edit(record)">编辑</a-button>
@@ -71,7 +71,12 @@ export default {
 			visible:false,
 			form:[],
       		is_add:false,
-      		title:'添加关键词'
+			title:'添加关键词',
+			// 分页
+			pagination:{
+        defaultPageSize:1,
+        total:20
+			},
         }
     },
     created(){
@@ -79,14 +84,33 @@ export default {
             `${this.request.base_url}/wechat_admin/wechat_reply/get`,
             res=>{
                 this.data = res.data.data
+                this.pagination = {
+					total:parseInt(res.data.paginate.count),
+					current:parseInt(res.data.paginate.page),
+					pageSize:parseInt(res.data.paginate.pageSize),
+					defaultPageSize:parseInt(res.data.paginate.pageSize)
+                }
   	        },err=>{
   	            this.$message.error('网络错误')
   	        }
         )
     },
     methods: {
-        handleTableChange:function(e) {
-            console.log(e)
+        handleTableChange:function(el) {
+            this.request.request_get(
+            	`${this.request.base_url}/wechat_admin/wechat_reply/get?page=${el.current}`,
+            	res=>{
+                	this.data = res.data.data
+                	this.pagination = {
+						total:parseInt(res.data.paginate.count),
+						current:parseInt(res.data.paginate.page),
+						pageSize:parseInt(res.data.paginate.pageSize),
+						defaultPageSize:parseInt(res.data.paginate.pageSize)
+                	}
+  	        	},err=>{
+  	            	this.$message.error('网络错误')
+  	        	}
+        	)
         },
         edit:function(data) {
 			this.visible = true
