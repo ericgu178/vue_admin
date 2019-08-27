@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
     if (localStorage.getItem('userinfo') != null) {
       userinfo = JSON.parse(localStorage.getItem('userinfo'));
     }
-    let toTime = new Date().getTime()
+    let toTime = new Date().getTime()/1000
     if (userinfo == null && to.path != '/login') {
         message.info('登录错误，请重新登录')
         setTimeout(()=>{

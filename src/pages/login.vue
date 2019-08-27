@@ -6,7 +6,7 @@
         </div>
         <a-form-item>
           <a-input v-decorator="['username',
-          { initialValue: 'admin' ,rules: [{ required: true, message: '请输入你的账户名' }] }]"
+          { rules: [{ required: true, message: '请输入你的账户名' }] }]"
             placeholder="账户"
             width="100%"
           >
@@ -15,7 +15,6 @@
         </a-form-item>
         <a-form-item>
           <a-input v-decorator="['password',{
-            initialValue: 123456 ,
             rules: [{ required: true, message: '请输入你的密码' }]
             }]"
             :type="password_show"
@@ -34,8 +33,8 @@
 
         <div style="position:relative">
             <div class="tips">
-              <span>Username : admin</span>
-              <span>Password : 123456</span>
+              <!-- <span>Username : admin</span>
+              <span>Password : 123456</span> -->
             </div>
         </div>
       </a-form>
@@ -61,22 +60,29 @@ export default {
             e.preventDefault();
             this.form.validateFields((err, values) => {
                 if (!err) {
-                    if(values.username=="admin" && values.password==123456){
-                        this.$message.success("登录成功")
-                        setTimeout(()=>{
-                            this.$router.push('/dashboard')
-                        },2000)
+					this.request.request_post(
+						`${this.request.base_url}/admin/login/login`,
+						response=>{
+							if (response.data.code == 0) {
+                				this.$message.success(response.data.msg)
+								userinfo = {
+                        		    username :　response.data.data.username,
+                        		    expire_time : response.data.data.expire_time
+                        		}
+                        		localStorage.setItem("userinfo",JSON.stringify(userinfo))
+                        		setTimeout(()=>{
+                        		    this.$router.push('/dashboard')
+                        		},2000)
 
-                        var myDate=new Date()
-                        let toTime = myDate.getTime() // 当前时间戳
-                        userinfo = {
-                            username :　values.username,
-                            expire_time : toTime + 1000 * 60 * 60 * 2
-                        }
-                        localStorage.setItem("userinfo",JSON.stringify(userinfo))
-                    }else{
-                        this.$message.error("账号或密码错误")
-                    }
+							} else {
+								this.$message.error(response.data.msg)
+							}
+						},
+						error=>{
+							this.$message.error('网络错误')
+						},
+						{username:values.username,password:values.password}
+					)
                 }
             });
         },

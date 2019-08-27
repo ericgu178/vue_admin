@@ -131,6 +131,14 @@ export default new Router({
 						title:`菜单管理`,
 						title_desc:`菜单管理 | ${base_title}`
 					}
+				},
+				{
+					path:'account',
+					component: resolve => require(['../pages/main/system/account.vue'], resolve),
+					meta:{
+						title:`账户管理`,
+						title_desc:`账户管理 | ${base_title}`
+					}
 				}
 			]
 		},

@@ -105,8 +105,12 @@ export default {
                                 icon:'menu-unfold',
                                 index: 'system/menu',
                                 title: '菜单管理',
+							},
+							{
+                                icon:'user',
+                                index: 'system/account',
+                                title: '账户管理',
                             },
-
                         ],
 
 					},
