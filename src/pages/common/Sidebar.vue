@@ -74,6 +74,11 @@ export default {
                         index: '/wechat',
                         title: '微信',
                         subs: [
+							{
+                                icon:'area-chart',
+                                index: 'wechat/wechat_dashboard',
+                                title: '微信首页',
+                            },
                             {
                                 icon:'file-word',
                                 index: 'wechat/wechat_reply',
@@ -82,8 +87,13 @@ export default {
                             {
                                 icon:'folder',
                                 index: 'wechat/wechat_material',
-                                title: '微信素材',
-                            },
+                                title: '素材管理',
+							},
+							{
+                                icon:'user',
+                                index: 'wechat/wechat_member',
+                                title: '会员管理',
+							}
                         ],
                     },
                     {
@@ -93,7 +103,7 @@ export default {
                         subs: [
                             {
                                 icon:'menu-unfold',
-                                index: 'menu',
+                                index: 'system/menu',
                                 title: '菜单管理',
                             },
 
@@ -102,13 +112,13 @@ export default {
 					},
 					{
                         icon: 'frown',
-                        index: '/403',
+                        index: '403',
                         title: '403',
 					},
 					{
                         icon: 'frown',
-                        index: '/401',
-                        title: '401',
+                        index: '302',
+                        title: '302重定向',
                     },
                  ]
         }
@@ -116,7 +126,7 @@ export default {
     methods:{
         // 跳转
         titleClick: function(res) {
-            this.$router.push({path:`${res}`})
+            this.$router.push({path:`/${res}`})
         },
         onOpenChange:function (res) {
             if(res[1]){

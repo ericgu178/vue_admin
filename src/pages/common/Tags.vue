@@ -45,13 +45,16 @@
             },
             // 关闭单个标签
             closeTags(index) {
+                if(this.tagsList.length == 1) {
+					return
+				}
                 const delItem = this.tagsList.splice(index, 1)[0];
                 const item = this.tagsList[index] ? this.tagsList[index] : this.tagsList[index - 1];
                 if (item) {
                     delItem.path === this.$route.fullPath && this.$router.push(item.path);
                 }else{
                     this.$router.push('/');
-                }
+				}
             },
             // 设置标签
             setTags(route){

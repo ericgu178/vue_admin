@@ -1,5 +1,6 @@
 <template>
     <div>
+		<a-progress :percent="percent" :style="`display:${show_progress}`"/>
         <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
   	    <a-button type="primary" @click="asyncMaterial" size="large" style="margin-top:10px;margin-bottom:20px;">同步微信素材</a-button>
 		<a-list
@@ -76,7 +77,10 @@ export default {
           	previewImage: '',
           	// 保存提交的
             fileList: [],
-            media_id:''
+			media_id:'',
+			// 进度条
+      percent:0,
+      show_progress:'none'
     	}
   	},
   	created() {
@@ -159,7 +163,7 @@ export default {
 			})
 			this.$http({
         		method: 'post',
-        		url: `${this.HOST}/admin/material/image_save`,
+        		url: `${this.HOST}/wechat_admin/wechat_material/image_save`,
         		dataType:"json",
         	  	data:{
 					image_list:image_list
@@ -184,15 +188,36 @@ export default {
     	    this.previewVisible = true
     	},
     	handleChange ({ fileList }) {
-    	  this.fileList = fileList
+    	  	this.fileList = fileList
 		},
 		asyncMaterial () {
+      		this.show_progress = 'block'
+			var n = 0, timer = setInterval(()=>{
+                n = n + Math.random()*10|0;
+                if(n>90){
+                  	n = 90;
+                  	return false;
+				}
+				this.percent = n
+            }, 2800+Math.random()*1000);
 			this.request.request_get(
 				`${this.request.base_url}/wechat_admin/wechat_material/syncMaterial`,
 				response=>{
-					this.$message.info(response.data.msg)
+					this.percent = 100
+					clearInterval(timer)
+					setTimeout(()=>{
+						this.$message.info(response.data.msg)
+						this.show_progress = 'none'
+						this.percent = 0
+					},1000)
 				},error=>{
-					this.$message.error('网络错误')
+					this.percent = 100
+					clearInterval(timer)
+					setTimeout(()=>{
+						this.$message.error('网络错误')
+						this.show_progress = 'none'
+						this.percent = 0
+					},1000)
 				}
 			)
 		},
