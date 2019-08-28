@@ -75,6 +75,11 @@ export default {
                         title: '微信',
                         subs: [
 							{
+								icon:'setting',
+								index: 'wechat/wechat_config',
+								title: '微信配置管理'
+							},
+							{
                                 icon:'area-chart',
                                 index: 'wechat/wechat_dashboard',
                                 title: '微信首页',

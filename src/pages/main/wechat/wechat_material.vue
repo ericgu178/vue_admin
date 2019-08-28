@@ -2,7 +2,7 @@
     <div>
 		<a-progress :percent="percent" :style="`display:${show_progress}`"/>
         <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
-  	    <a-button type="primary" @click="asyncMaterial" size="large" style="margin-top:10px;margin-bottom:20px;">同步微信素材</a-button>
+  	    <a-button type="primary" @click="syncMaterial" size="large" style="margin-top:10px;margin-bottom:20px;">同步微信素材</a-button>
 		<a-list
         	:grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }"
         	:dataSource="material_list"
@@ -190,7 +190,7 @@ export default {
     	handleChange ({ fileList }) {
     	  	this.fileList = fileList
 		},
-		asyncMaterial () {
+		syncMaterial () {
       		this.show_progress = 'block'
 			var n = 0, timer = setInterval(()=>{
                 n = n + Math.random()*10|0;

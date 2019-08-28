@@ -78,6 +78,14 @@ export default new Router({
 			},
 			children:[
 				{
+					path:'wechat_config',
+					component: resolve => require(['../pages/main/wechat/wechat_config.vue'], resolve),
+					meta:{
+					  	title:`微信配置管理`,
+					  	title_desc:`微信配置管理 | ${base_title}`
+					}
+				},
+				{
 					path:'wechat_reply',
 					component: resolve => require(['../pages/main/wechat/wechat_reply.vue'], resolve),
 					meta:{
