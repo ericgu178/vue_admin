@@ -16,6 +16,10 @@ const columns = [{
     dataIndex: 'id',
     width: 60,
 }, {
+    title: '公众号名称',
+    dataIndex: 'wechat_title',
+    width: 150,
+}, {
     title: 'app_id',
     dataIndex: 'app_id',
     width: 150,

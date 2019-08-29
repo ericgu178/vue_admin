@@ -94,6 +94,14 @@ export default new Router({
 					}
 				},
 				{
+					path:'custom_menu',
+					component: resolve => require(['../pages/main/wechat/wechat_custom_menu.vue'], resolve),
+					meta:{
+					  	title:`自定义菜单`,
+					  	title_desc:`自定义菜单 | ${base_title}`
+					}
+				},
+				{
 					path:'wechat_material',
 					component: resolve => require(['../pages/main/wechat/wechat_material.vue'], resolve),
 					meta:{

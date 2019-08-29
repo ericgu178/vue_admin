@@ -22,7 +22,7 @@
                 <a-badge :count="barge"><a-avatar class="user-avator" shape="square" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" /></a-badge>
                 <a-dropdown class="user-name" :trigger="['click']">
                         <span style="font-size:16px;cursor:pointer" class="ant-dropdown-link">
-                          admin<a-icon type="down" />
+                          {{user}}<a-icon type="down" />
                         </span>
                         <a-menu slot="overlay">
                           <a-menu-item>
@@ -43,12 +43,14 @@
                 isColl: false,
                 fullscreen: false,
                 title:"EricGU178",
-                barge:null,
+				barge:null,
+				user:'test'
             }
         },
-        computed:{
-
-        },
+        created() {
+			let userinfo = JSON.parse(localStorage.getItem('userinfo'));
+			this.user = userinfo.username
+		},
         methods:{
             logout(){
                 localStorage.removeItem('userinfo')
@@ -150,4 +152,3 @@
     }
 </style>
 
-    

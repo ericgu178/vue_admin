@@ -89,6 +89,11 @@ export default {
                                 index: 'wechat/wechat_reply',
                                 title: '关键词回复',
                             },
+							{
+                                icon:'menu-unfold',
+                                index: 'wechat/custom_menu',
+                                title: '自定义菜单',
+                            },
                             {
                                 icon:'folder',
                                 index: 'wechat/wechat_material',
