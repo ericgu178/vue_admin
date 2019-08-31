@@ -159,6 +159,37 @@ export default new Router({
 			]
 		},
 /*+====================================================+
+ *+				工具路由
+ *+====================================================+
+ **/
+		{
+			path:'/tool',
+			component: resolve => require(['../pages/common/Home.vue'], resolve),
+			// redirect:'wechat_dashboard',
+			meta:{
+			  	title:`系统`,
+			  	title_desc:`系统 | ${base_title}`
+			},
+			children:[
+				{
+					path:'php',
+					component: resolve => require(['../pages/main/tool/php.vue'], resolve),
+					meta:{
+						title:`php小工具`,
+						title_desc:`php小工具 | ${base_title}`
+					}
+				},
+				{
+					path:'js',
+					component: resolve => require(['../pages/main/tool/js.vue'], resolve),
+					meta:{
+						title:`javascript小工具`,
+						title_desc:`javascript小工具 | ${base_title}`
+					}
+				}
+			]
+		},
+/*+====================================================+
  *+				其他路由
  *+====================================================+
  **/

@@ -125,6 +125,23 @@ export default {
 
 					},
 					{
+                        icon: 'tool',
+                        index: '/tool',
+                        title: '小工具',
+                        subs: [
+                            {
+                                icon:'rocket',
+                                index: 'tool/php',
+                                title: 'php小工具',
+							},
+							{
+                                icon:'customer-service',
+                                index: 'tool/js',
+                                title: 'javascript小工具',
+							},
+                        ],
+					},
+					{
                         icon: 'frown',
                         index: '403',
                         title: '403',

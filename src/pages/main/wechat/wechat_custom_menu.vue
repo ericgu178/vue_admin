@@ -1,5 +1,6 @@
 <template>
-	<div class="content" style="width:1000px;">
+<div>
+	<div class="content" style="width:1000px;float:left">
         <div id="app-menu">
             <!-- 预览窗 -->
             <div class="weixin-preview">
@@ -216,6 +217,11 @@
             <div id="btn-clear" class="btn btn-danger" @click="clearMenu">清空</div>
         </div>
     </div>
+	<div style="width:630px;float:right;margin-right:20px;">
+		<h3>生成json查看</h3>
+		<pre>{{menu}}</pre>
+	</div>
+</div>
 </template>
 <style>
 @import "../../../assets/css/wechat_menu/bootstrap.min.css";
@@ -227,7 +233,9 @@ export default {
   	data() {
 	  	return {
 			weixinTitle: '公众号菜单',
-        	menu: {'button': []},//当前菜单
+        	menu: {
+				'button': []
+			},//当前菜单
         	selectedMenuIndex:'',//当前选中菜单索引
         	selectedSubMenuIndex:'',//当前选中子菜单索引
 			menuNameBounds:false,//菜单长度是否过长
@@ -244,7 +252,8 @@ export default {
 			response=>{
 				if (response.data.code != 0) {
 					this.$message.error(response.data.msg)
-        		}
+				}
+				this.selectedMenuIndex = 0 //默认打开第一个
 				this.menu.button = response.data.data.menu.button
 				this.weixinTitle = response.data.wx_title
 			},
@@ -473,7 +482,9 @@ export default {
 				});
 				return;
 			}
-      		this.menu.button = []
+			this.menu.button = []
+			this.selectedMenuIndex = ''
+			this.selectedSubMenuIndex = ''
       		this.$notification.open({
       		    message: '操作通知',
 				description: '菜单已经全部清除，发布前请确认',
