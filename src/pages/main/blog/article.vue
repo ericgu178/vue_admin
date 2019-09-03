@@ -36,12 +36,10 @@
               </div>
           </a-upload>
           </a-form-item>
-
           <a-form-item label="内容" :label-col="{ span:1 }" :wrapper-col="{ span: 23 }">
             <mavon-editor style="height: 100%" @change="markdownSave"></mavon-editor>
           </a-form-item>
 
-          
           <a-button size="large" style="margin-left:55px;margin-top:1%;margin-bottom:2%" type="primary" @click="save($event)">保存</a-button>
           <a-button size="large" style="margin-left:25px;margin-top:1%;margin-bottom:2%" @click="back">取消</a-button>
         </a-form>
@@ -63,7 +61,7 @@ export default {
       form: this.$form.createForm(this),
       input:{},
       loading: false,
-      imageUrl: '',
+	  imageUrl: '',
     }
   },
   name: 'editor',
@@ -71,15 +69,16 @@ export default {
       mavonEditor
   },
   created(){
-    this.$http({
-        method: 'Get',
-        url: `${this.HOST}/admin/article/add`,
-        dataType:"json",
-      }).then(res=>{
-        this.initialize.label = res.data.label
-      }).catch(err=>{
-        console.log(err)
-      })
+	  	// this.article = this.$route.query.article
+    	this.$http({
+    	    method: 'Get',
+    	    url: `${this.HOST}/admin/article/add`,
+    	    dataType:"json",
+    	}).then(res=>{
+    	    this.initialize.label = res.data.label
+    	}).catch(err=>{
+    	    this.$message.error('网络错误')
+    	})
   },
   methods: {
     markdownSave (html,render) {
@@ -99,7 +98,7 @@ export default {
       if (this.input.blog_content.length == 0) {
         return this.$message.info("请写下的你的文章")
       }
-      
+
       // return
       this.$http({
         method: 'POST',
@@ -116,7 +115,7 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
-       
+
     },
     back(){
         this.$router.go(-1);
