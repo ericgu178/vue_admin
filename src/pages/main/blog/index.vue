@@ -3,10 +3,10 @@
     <router-link to="/article">
         <a-button size="large" style="margin-bottom:10px;background:skyblue">写文章</a-button>
     </router-link>
-    <a-table :columns="columns" :dataSource="data" bordered  @change="handleTableChange">
+    <a-table :columns="columns" :dataSource="data" :scroll="{x:1710}" bordered  @change="handleTableChange">
         <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
         <span slot="handle" slot-scope="text, record">
-			<a-button type="primary" disabled @click="edit(record)">编辑</a-button>
+			<a-button type="primary" @click="edit(record)">编辑</a-button>
           	<a-divider type="vertical" />
           	<a-popconfirm title="你是否要执行此次操作？" @confirm="setBanner(record.id,record.isBanner)" @cancel="cancel" okText="是" cancelText="否">
           		<a-button v-if="record.isBanner == 0" type="primary">设为轮播图</a-button>
@@ -55,6 +55,8 @@ const columns = [{
 }, {
   title: '操作',
   dataIndex : "handle",
+  fixed: 'right',
+  width: 350,
   scopedSlots: { customRender: 'handle' },
 }];
 export default {
@@ -66,17 +68,20 @@ export default {
   	  	}
   	},
   	created(){
-  	    this.$http({
-  	        method: 'Get',
-  	        url: `${this.HOST}/admin/article/index`,
-  	        dataType:"json",
-  	    }).then(res=>{
-  	      	this.data = res.data
-  	    }).catch(err=>{
-  	      	console.log(err)
-  	    })
+
   	},
-  methods: {
+    methods: {
+        init() {
+            this.$http({
+  	            method: 'Get',
+  	            url: `${this.HOST}/admin/article/index`,
+  	            dataType:"json",
+  	        }).then(res=>{
+  	          	this.data = res.data
+  	        }).catch(err=>{
+  	          	console.log(err)
+  	        })
+        },
       	search(){
         	this.$http({
         	    method: 'Post',
@@ -129,13 +134,16 @@ export default {
 		},
 		edit:function(article) {
 			this.$router.push({
-				path:'/article',
+				path:'/edit_article',
 				query: {
 					article:article
 				}
       		})
 		}
-  }
+    },
+    mounted() {
+        this.init();
+    }
 }
 </script>
 <style>

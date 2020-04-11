@@ -1,5 +1,5 @@
 <template>
-<div>
+<div id="main">
 	<div class="content" style="width:1000px;float:left">
         <div id="app-menu">
             <!-- 预览窗 -->
@@ -217,7 +217,7 @@
             <div id="btn-clear" class="btn btn-danger" @click="clearMenu">清空</div>
         </div>
     </div>
-	<div style="width:630px;float:right;margin-right:20px;">
+	<div style="calc(100% - 1000px);margin-right:20px;">
 		<h3>生成json查看</h3>
 		<pre>{{menu}}</pre>
 	</div>
@@ -496,3 +496,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+    #main {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>

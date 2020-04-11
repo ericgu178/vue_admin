@@ -37,7 +37,7 @@
           </a-upload>
           </a-form-item>
           <a-form-item label="内容" :label-col="{ span:1 }" :wrapper-col="{ span: 23 }">
-            <mavon-editor style="height: 100%" @change="markdownSave"></mavon-editor>
+            <mavon-editor ref="md" @imgAdd="imgAdd" style="height: 100%;width:1200px;" @change="markdownSave"></mavon-editor>
           </a-form-item>
 
           <a-button size="large" style="margin-left:55px;margin-top:1%;margin-bottom:2%" type="primary" @click="save($event)">保存</a-button>
@@ -146,6 +146,26 @@ export default {
         }
         this.loading = false
       }
+    },
+    imgAdd:function(file,fileinfo) {
+        let formdata = new FormData()
+        formdata.append('file',fileinfo)
+        this.request.request_post(
+            `${this.HOST}/admin/image/upload`,
+            res=>{
+                if(res.data.code == 0) {
+                    this.$refs.md.$img2Url(file,res.data.url)
+                    this.$message.success('上传成功')
+                    return 
+                }
+                this.$message.error(res.data.msg)
+            },
+            error=>{
+                this.$message.error('出现错误')
+            },
+            formdata,
+            {'Content-Type': 'multipart/form-data'}
+        )
     }
   },
   mounted() {

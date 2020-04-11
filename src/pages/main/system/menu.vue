@@ -55,11 +55,11 @@ const columns = [{
 }, {
   title: '所属上级',
   dataIndex: 'menus.title',
-  width: 200,
+  width: 150,
 }, {
   title: '状态',
   dataIndex: 'statusText',
-  width: 200,
+  width: 70,
 }, {
   title: '创建时间',
   dataIndex: 'create_time',

@@ -2,7 +2,7 @@
     <div>
         <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
   	    <a-list
-        	:grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }"
+        	:grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }"
         	:dataSource="material_list"
   	    >
         	<a-list-item slot="renderItem" slot-scope="item, index">
@@ -58,21 +58,21 @@ export default {
     inject:['reload'],
   	data () {
     	return {
-          material_list:[],
-          visible:false,
-          show_filepath:null,
-          paginate:{
-            defaultCurrent:1,
-            total:0,
-            pageSize:12
-		  },
-		  // img
-          img_action:`${this.HOST}/admin/material/upload`,
-          img_visible:false,
-		      previewVisible: false,
-          previewImage: '',
-          // 保存提交的
-          fileList: [],
+            material_list:[],
+            visible:false,
+            show_filepath:null,
+            paginate:{
+                defaultCurrent:1,
+                total:0,
+                pageSize:12
+		    },
+		    // img
+            img_action:`${this.HOST}/admin/material/upload`,
+            img_visible:false,
+		    previewVisible: false,
+            previewImage: '',
+            // 保存提交的
+            fileList: [],
     	}
   	},
   	created() {

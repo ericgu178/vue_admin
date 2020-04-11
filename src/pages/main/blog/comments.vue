@@ -23,7 +23,7 @@ const columns = [{
 }, {
   title: '文章标题',
   dataIndex: 'link_article.blog_title',
-  width: 150,
+  width: 250,
 }, {
   title: '评论内容',
   dataIndex: 'comment_content',

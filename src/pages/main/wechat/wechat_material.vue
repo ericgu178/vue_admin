@@ -4,7 +4,7 @@
         <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
   	    <a-button type="primary" @click="syncMaterial" size="large" style="margin-top:10px;margin-bottom:20px;">同步微信素材</a-button>
 		<a-list
-        	:grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }"
+        	:grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 3, xl: 3, xxl: 3 }"
         	:dataSource="material_list"
   	    >
         	<a-list-item slot="renderItem" slot-scope="item, index">

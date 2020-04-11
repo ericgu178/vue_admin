@@ -45,7 +45,7 @@ router.beforeEach((to, from, next) => {
     // localStorage.setItem("userinfo",JSON.stringify(userinfo))
 
     // 页面不存在
-    console.log(to)
+    // console.log(to)
     if (to.matched.length == 0) {
         next({path: '/404'})
     }
@@ -58,12 +58,12 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach(transition => {
     if (passPath.indexOf(transition.path) === -1) {
-        var consumingTime = new Date().getTime() - startTime
-        notification.info({
-            message: '此次加载页面消耗时间',
-            duration:2,
-            description: `耗时${consumingTime / 1000}秒`,
-        });
+        // var consumingTime = new Date().getTime() - startTime
+        // notification.info({
+        //     message: '此次加载页面消耗时间',
+        //     duration:2,
+        //     description: `耗时${consumingTime / 1000}秒`,
+        // });
     }
     NProgress.done();
 });

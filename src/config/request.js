@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css' //这个样式必须引入
 import {notification} from "ant-design-vue/es"; //单独引入message消息提示模块
 
 
-const base_url   =   "http://ericgu178.com/";
+const base_url   =   "https://ericgu178.com/";
 
 
 
@@ -38,14 +38,14 @@ Axios.interceptors.request.use(config => {
         return config;
     },error => {
         var consumingTime = new Date().getTime() - startTime
-        notification.error({
-            message: '此次请求消耗时间',
-            duration:0,
-            description: `发送请求之前失败，耗时${consumingTime / 1000}秒`,
-            style:{
-                color:'red',
-            },
-        });
+        // notification.error({
+        //     message: '此次请求消耗时间',
+        //     duration:0,
+        //     description: `发送请求之前失败，耗时${consumingTime / 1000}秒`,
+        //     style:{
+        //         color:'red',
+        //     },
+        // });
         NProgress.done();
         return Promise.reject(error);
     }
@@ -54,14 +54,14 @@ Axios.interceptors.request.use(config => {
 //返回状态判断(添加响应拦截器)
 Axios.interceptors.response.use(res => {
         var consumingTime = new Date().getTime() - startTime
-        notification.success({
-            message: '此次请求消耗时间',
-            duration:2,
-            description: `请求成功，耗时${consumingTime / 1000}秒`,
-            style:{
-                color:'green',
-            },
-        });
+        // notification.success({
+        //     message: '此次请求消耗时间',
+        //     duration:2,
+        //     description: `请求成功，耗时${consumingTime / 1000}秒`,
+        //     style:{
+        //         color:'green',
+        //     },
+        // });
         NProgress.done();
         if (res.data.code != 0) {
 
@@ -69,14 +69,14 @@ Axios.interceptors.response.use(res => {
         return res;
     },error => {
         var consumingTime = new Date().getTime() - startTime
-        notification.error({
-            message: '此次请求消耗时间',
-            duration:0,
-            description: `响应失败，耗时${consumingTime / 1000}秒`,
-            style:{
-                color:'red',
-            },
-        });
+        // notification.error({
+        //     message: '此次请求消耗时间',
+        //     duration:0,
+        //     description: `响应失败，耗时${consumingTime / 1000}秒`,
+        //     style:{
+        //         color:'red',
+        //     },
+        // });
         NProgress.done();
         return Promise.reject(error);
     }
@@ -88,13 +88,15 @@ Axios.interceptors.response.use(res => {
  * @param map data 
  * @param function success 
  * @param function fail 
+ * @param headers 头部
  * @param string dataType 
  */
-function request_post(url, successFunc , failFunc , data =  {},dataType = 'json') {
+function request_post(url, successFunc , failFunc , data =  {},  headers = {}, dataType = 'json') {
     Axios({
         method: 'post',
         url: url,
         dataType:dataType,
+        header:headers,
         data:data,
     })
     .then(successFunc)
