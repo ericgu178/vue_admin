@@ -1,36 +1,39 @@
 <template>
-  <div>
-	<a-button type="primary" size="large" @click="visible = true;form = {};is_add=true;title='添加关键词'" style="margin-top:10px;margin-bottom:20px;">添加关键词</a-button>
-    <a-table :columns="columns" :dataSource="data" bordered :pagination="pagination"  @change="handleTableChange">
-        <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
-        <span slot="handle" slot-scope="text, record">
-            <a-button type="primary" @click="edit(record)">编辑</a-button>
-        </span>
-    </a-table>
-	<a-modal
-            :title="title"
-            v-model="visible"
-            okText = '保存'
-            cancelText = '取消'
-            @ok="edit_truly(is_add)"
-        >
-        <a-form>
-            <a-form-item label="关键词" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
-                <a-input type="text" v-model = "form.receive_content" placeholder="请输入关键词"/>
-            </a-form-item>
-            <a-form-item label="回复类型" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
-      			<a-radio-group v-model = "form.reply_type">
-      			  	<a-radio :value="0">文本消息</a-radio>
-      			  	<a-radio :value="1">图片消息</a-radio>
-      			  	<a-radio :value="2">语音消息</a-radio>
-      			</a-radio-group>
-    		</a-form-item>
-			<a-form-item label="回复内容" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
-                <a-input type="text" v-model = "form.reply_content" placeholder="请输入回复内容"/>
-            </a-form-item>
-        </a-form>
-    </a-modal>
-  </div>
+    <div>
+        <a-card title="关键词回复" :bordered="false">
+            <a-button type="primary" @click="visible = true;form = {};is_add=true;title='添加关键词'" style="margin-bottom:20px;">添加关键词</a-button>
+            <a-table :loading="tableLoading" :columns="columns" :dataSource="data" bordered :pagination="pagination"  @change="handleTableChange">
+                <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
+                <span slot="handle" slot-scope="text, record">
+                    <a-button type="primary" size="small" @click="edit(record)">编辑</a-button>
+                </span>
+            </a-table>
+        </a-card>
+	    <!-- 模态框 -->
+	    <a-modal
+                :title="title"
+                v-model="visible"
+                okText = '保存'
+                cancelText = '取消'
+                @ok="edit_truly(is_add)"
+            >
+            <a-form>
+                <a-form-item label="关键词" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
+                    <a-input type="text" v-model = "form.receive_content" placeholder="请输入关键词"/>
+                </a-form-item>
+                <a-form-item label="回复类型" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
+          			<a-radio-group v-model = "form.reply_type">
+          			  	<a-radio :value="0">文本消息</a-radio>
+          			  	<a-radio :value="1">图片消息</a-radio>
+          			  	<a-radio :value="2">语音消息</a-radio>
+          			</a-radio-group>
+        		</a-form-item>
+	    		<a-form-item label="回复内容" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
+                    <a-input type="text" v-model = "form.reply_content" placeholder="请输入回复内容"/>
+                </a-form-item>
+            </a-form>
+        </a-modal>
+    </div>
 </template>
 <script>
 const columns = [{
@@ -74,15 +77,17 @@ export default {
 			title:'添加关键词',
 			// 分页
 			pagination:{
-        defaultPageSize:1,
-        total:20
-			},
+                defaultPageSize:1,
+                total:20
+            },
+            tableLoading:true
         }
     },
     created(){
         this.request.request_get(
             `${this.request.base_url}/wechat_admin/wechat_reply/get`,
             res=>{
+                this.tableLoading = false;
                 this.data = res.data.data
                 this.pagination = {
 					total:parseInt(res.data.paginate.count),
@@ -91,6 +96,7 @@ export default {
 					defaultPageSize:parseInt(res.data.paginate.pageSize)
                 }
   	        },err=>{
+                this.tableLoading = false;
   	            this.$message.error('网络错误')
   	        }
         )

@@ -1,18 +1,21 @@
 <template>
     <div>
-        <a-button type="primary" size="large" @click="visible = true" style="margin-top:10px;margin-bottom:20px;">添加菜单</a-button>
-        <a-table :columns="columns" :dataSource="data" bordered  @change="handleTableChange">
-            <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
-            <span slot="handle" slot-scope="text, record">
-                <a-popconfirm title="是否禁用这个菜单" @confirm="switchStatus(record.id)" okText="是" cancelText="否">
-                    <a-button type="danger" v-if="record.status == 0">禁用</a-button>
-                    <a-button type="default" v-if="record.status == 1">启用</a-button>
-                </a-popconfirm>
-                <a-popconfirm title="是否删除这个菜单" @confirm="dealDel(record.id)" okText="是" cancelText="否">
-                    <a-button type="danger" >删除</a-button>
-                </a-popconfirm>
-            </span>
-        </a-table>
+        <a-card title="菜单管理" :bordered="false">
+            <a-button type="primary" @click="visible = true" style="margin-bottom:20px;">添加菜单</a-button>
+            <a-table :loading="tableLoading" :columns="columns" :dataSource="data" bordered  @change="handleTableChange">
+                <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
+                <span slot="handle" slot-scope="text, record">
+                    <a-popconfirm title="是否禁用这个菜单" @confirm="switchStatus(record.id)" okText="是" cancelText="否">
+                        <a-button size="small" type="danger" v-if="record.status == 0">禁用</a-button>
+                        <a-button size="small" type="default" v-if="record.status == 1">启用</a-button>
+                    </a-popconfirm>
+                    <a-popconfirm title="是否删除这个菜单" @confirm="dealDel(record.id)" okText="是" cancelText="否">
+                        <a-button size="small" type="danger">删除</a-button>
+                    </a-popconfirm>
+                </span>
+            </a-table>
+        </a-card>
+        
 
         <a-modal
             title="添加菜单"
@@ -47,7 +50,7 @@ const columns = [{
 }, {
   title: '菜单标题',
   dataIndex: 'title',
-  width: 150,
+  width: 120,
 },{
   title: '地址',
   dataIndex: 'url',
@@ -63,11 +66,11 @@ const columns = [{
 }, {
   title: '创建时间',
   dataIndex: 'create_time',
-  width: 160,
+  width: 200,
 },{
   title: '更新时间',
   dataIndex: 'update_time',
-  width: 160,
+  width: 200,
 },{
   title: '操作',
   dataIndex : "handle",
@@ -82,19 +85,22 @@ export default {
             pid_list:[],
             // 模态框
             visible:false,
-            form:{}
+            form:{},
+            tableLoading:true
     	}
   	},
   	created(){
         this.request.request_get(
             `${this.request.base_url}/admin/menu/index`,
             res=>{
+                this.tableLoading = false;
                 res.data.menu_list.filter(item=>{
 				    item.statusText = item.status == 0 ? '正常' : '禁用';
                 })
                 this.pid_list = res.data.pid_list
   	            this.data = res.data.menu_list
   	        },err=>{
+                this.tableLoading = false;
   	            this.$message.error('网络错误')
   	        }
         )

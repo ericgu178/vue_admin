@@ -1,19 +1,21 @@
 <template>
     <div>
-        <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
-  	    <a-list
-        	:grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }"
-        	:dataSource="material_list"
-  	    >
-        	<a-list-item slot="renderItem" slot-scope="item, index">
-          	<a-card :title="item.create_time">
-              <!-- 图片不显示的时候展示一张错误时的图片 -->
-              <img :src="item.file_path" alt="" @click="showImage(item.file_path)" class="index_list" onerror="this.src='http://ericgu178.com/static/images/404.jpg'">
-            </a-card>
-        	</a-list-item>
-  	    </a-list>
-        <!-- 分页 -->
-        <a-pagination showQuickJumper :pageSize="paginate.pageSize" :defaultCurrent="1" :total="paginate.total" @change="onChange" style="text-align:right;margin-bottom:40px;"/>
+        <a-card title="素材管理" :bordered="false">
+            <a-button type="primary" @click="img_visible=true" style="margin-bottom:10px;">批量上传图片</a-button>
+  	        <a-list
+            	:grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 }"
+            	:dataSource="material_list"
+  	        >
+            	<a-list-item slot="renderItem" slot-scope="item, index">
+              	<a-card :title="item.create_time">
+                  <!-- 图片不显示的时候展示一张错误时的图片 -->
+                  <img :src="item.file_path" alt="" @click="showImage(item.file_path)" class="index_list" onerror="this.src='http://ericgu178.com/static/images/404.jpg'">
+                </a-card>
+            	</a-list-item>
+  	        </a-list>
+            <!-- 分页 -->
+            <a-pagination showQuickJumper :pageSize="paginate.pageSize" :defaultCurrent="1" :total="paginate.total" @change="onChange" style="text-align:right;margin-bottom:40px;"/>
+        </a-card>
         <!-- 模态框 -->
         <a-modal
           v-model="visible"
@@ -89,7 +91,8 @@ export default {
                     this.material_list.push({
 				  	    create_time:v.create_time,
                         file_path:`${this.HOST}${v.filepath}`,
-                        material_id:v.id
+                        material_id:v.id,
+                        loading_state:true
 				  	})
                 })
 				return false

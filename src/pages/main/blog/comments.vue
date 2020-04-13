@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <a-table :columns="columns" :dataSource="data" bordered  @change="handleTableChange">
-        <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
-        <span slot="handle" slot-scope="text, record">
-            <a-popconfirm title="是否审核通过或不通过" @confirm="adopt(record.id,record.blog_article_id,record.status)" okText="是" cancelText="否">
-                <a-button v-if="record.check" type="primary">审核通过</a-button>
-                <a-button v-if="!record.check" type="danger">取消通过</a-button>
-            </a-popconfirm>
-            <!-- <a-divider type="vertical" /> -->
-          <!-- <a-popconfirm title="你是否" @confirm="deleted(record.id)" @cancel="cancel" okText="是" cancelText="否">
-          <a-button type="danger">删除</a-button> -->
-          <!-- </a-popconfirm> -->
-        </span>
-    </a-table>
-  </div>
+    <div>
+        <a-card title="评论管理" :bordered="false">
+            <a-table :columns="columns" :dataSource="data" bordered  @change="handleTableChange" :loading="tableLoading">
+                <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
+                <span slot="handle" slot-scope="text, record">
+                    <a-popconfirm title="是否审核通过或不通过" @confirm="adopt(record.id,record.blog_article_id,record.status)" okText="是" cancelText="否">
+                        <a-button v-if="record.check" type="primary" size="small">审核通过</a-button>
+                        <a-button v-if="!record.check" type="danger" size="small">取消通过</a-button>
+                    </a-popconfirm>
+                    <!-- <a-divider type="vertical" /> -->
+                  <!-- <a-popconfirm title="你是否" @confirm="deleted(record.id)" @cancel="cancel" okText="是" cancelText="否">
+                  <a-button type="danger">删除</a-button> -->
+                  <!-- </a-popconfirm> -->
+                </span>
+            </a-table>
+        </a-card>
+    </div>
 </template>
 <script>
 const columns = [{
@@ -39,7 +41,7 @@ const columns = [{
 }, {
   title: '评论时间',
   dataIndex: 'create_time',
-  width: 160,
+  width: 200,
 }, {
   title: '操作',
   dataIndex : "handle",
@@ -51,6 +53,7 @@ export default {
     return {
       data:[],
       columns,
+      tableLoading:true,
     }
   },
   created(){
@@ -59,13 +62,15 @@ export default {
             url: `${this.HOST}/admin/article/commentsList`,
             dataType:"json",
         }).then(res=>{
-          this.data = res.data
-          this.data.filter(item=>{
-              item.check = item.status == 0 ? true : false
-              item.statusText = item.status == 0 ? "未通过" : "通过"
-          })
+            this.tableLoading = false;
+            this.data = res.data
+            this.data.filter(item=>{
+                item.check = item.status == 0 ? true : false
+                item.statusText = item.status == 0 ? "未通过" : "通过"
+            })
         }).catch(err=>{
-          console.log(err)
+            this.tableLoading = false;
+            console.log(err)
         })
   },
   methods: {

@@ -1,23 +1,25 @@
 <template>
     <div>
 		<a-progress :percent="percent" :style="`display:${show_progress}`"/>
-        <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
-  	    <a-button type="primary" @click="syncMaterial" size="large" style="margin-top:10px;margin-bottom:20px;">同步微信素材</a-button>
-		<a-list
-        	:grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 3, xl: 3, xxl: 3 }"
-        	:dataSource="material_list"
-  	    >
-        	<a-list-item slot="renderItem" slot-scope="item, index">
-				<a-card :title="item.title">
-              		<img :src="item.file_path" alt="" @click="showImage(item.file_path,item.media_id)" class="index_list" onerror="this.src='http://ericgu178.com/static/images/404.jpg'">
-  					<a-card-meta :title="item.media_id" style="padding-top:20px;">
-  					  <template slot="description">{{item.create_time}}</template>
-  					</a-card-meta>
-				</a-card>
-        	</a-list-item>
-  	    </a-list>
-        <!-- 分页 -->
-        <a-pagination showQuickJumper :pageSize="paginate.pageSize" :defaultCurrent="1" :total="paginate.total" @change="onChange" style="text-align:right;margin-bottom:40px;"/>
+        <a-card title="微信素材管理" :bordered="false">
+            <a-button type="primary" size="large" @click="img_visible=true" style="margin-top:10px;margin-bottom:20px;">批量上传图片</a-button>
+  	        <a-button type="primary" @click="syncMaterial" size="large" style="margin-top:10px;margin-bottom:20px;">同步微信素材</a-button>
+		    <a-list
+            	:grid="{ gutter: 16, xs: 1, sm: 2, md: 4, lg: 3, xl: 3, xxl: 3 }"
+            	:dataSource="material_list"
+  	        >
+            	<a-list-item slot="renderItem" slot-scope="item, index">
+		    		<a-card :title="item.title">
+                  		<img :src="item.file_path" alt="" @click="showImage(item.file_path,item.media_id)" class="index_list" onerror="this.src='http://ericgu178.com/static/images/404.jpg'">
+  		    			<a-card-meta :title="item.media_id" style="padding-top:20px;">
+  		    			  <template slot="description">{{item.create_time}}</template>
+  		    			</a-card-meta>
+		    		</a-card>
+            	</a-list-item>
+  	        </a-list>
+            <!-- 分页 -->
+            <a-pagination showQuickJumper :pageSize="paginate.pageSize" :defaultCurrent="1" :total="paginate.total" @change="onChange" style="text-align:right;margin-bottom:40px;"/>
+        </a-card>
         <!-- 模态框 -->
         <a-modal
           v-model="visible"
@@ -79,8 +81,8 @@ export default {
             fileList: [],
 			media_id:'',
 			// 进度条
-      percent:0,
-      show_progress:'none'
+            percent:0,
+            show_progress:'none'
     	}
   	},
   	created() {
@@ -155,6 +157,7 @@ export default {
 		save_img:function() {
       		const image_list = []
       		this.fileList.filter(v=>{
+                console.log(v)
                 var start = v.response.url.indexOf('/uploads');
                 v.response.url = v.response.url.substr(start)
       		  	image_list.push({

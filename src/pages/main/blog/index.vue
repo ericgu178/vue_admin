@@ -1,31 +1,33 @@
 <template>
-  <div>
-    <router-link to="/article">
-        <a-button size="large" style="margin-bottom:10px;background:skyblue">写文章</a-button>
-    </router-link>
-    <a-table :columns="columns" :dataSource="data" :scroll="{x:1710}" bordered  @change="handleTableChange">
-        <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
-        <span slot="handle" slot-scope="text, record">
-			<a-button type="primary" @click="edit(record)">编辑</a-button>
-          	<a-divider type="vertical" />
-          	<a-popconfirm title="你是否要执行此次操作？" @confirm="setBanner(record.id,record.isBanner)" @cancel="cancel" okText="是" cancelText="否">
-          		<a-button v-if="record.isBanner == 0" type="primary">设为轮播图</a-button>
-          		<a-button v-if="record.isBanner == 1" type="danger">取消轮播图</a-button>
-          		<a-button v-if="record.isBanner == 2">恢复轮播图</a-button>
-          	</a-popconfirm>
-			<a-divider type="vertical" />
-			<a-popconfirm title="你是否要删除这篇文章？" @confirm="deleted(record.id)" @cancel="cancel" okText="是" cancelText="否">
-          		<a-button type="danger">删除</a-button>
-          	</a-popconfirm>
-        </span>
-        <template slot="title" slot-scope="currentPageData">
-            <div class="components-input-demo-size">
-              	<a-input placeholder="请输入标题搜索内容" v-model="input" size="large"/>
-              	<a-button type="primary" @click="search()" icon="search" size="large">搜索</a-button>
-            </div>
-        </template>
-    </a-table>
-  </div>
+    <div>
+        <a-card title="文章管理" :bordered="false">
+            <a-table :columns="columns" :dataSource="data" :scroll="{x:1710}" bordered  @change="handleTableChange" :loading="tableLoading">
+                <h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
+                <span slot="handle" slot-scope="text, record">
+	        		<a-button type="primary" @click="edit(record)" size="small">编辑</a-button>
+                  	<a-popconfirm title="你是否要执行此次操作？" @confirm="setBanner(record.id,record.isBanner)" @cancel="cancel" okText="是" cancelText="否">
+                  		<a-button v-if="record.isBanner == 0" size="small" type="primary">设为轮播图</a-button>
+                  		<a-button v-if="record.isBanner == 1" size="small" type="danger">取消轮播图</a-button>
+                  		<a-button v-if="record.isBanner == 2" size="small">恢复轮播图</a-button>
+                  	</a-popconfirm>
+                    <a-button size="small" @click="updateState(record)" v-show="record.state == 1" type="danger">开放观看</a-button>
+	        		<a-button size="small" @click="updateState(record)" v-show="record.state == 0" type="primary">关闭开放</a-button>
+                    <a-popconfirm title="你是否要删除这篇文章？" @confirm="deleted(record.id)" @cancel="cancel" okText="是" cancelText="否">
+                  		<a-button size="small" type="danger">删除</a-button>
+                  	</a-popconfirm>
+                </span>
+                <template slot="title" slot-scope="currentPageData">
+                    <div class="components-input-demo-size">
+                      	<a-input placeholder="请输入标题搜索内容" v-model="input" size="large"/>
+                      	<a-button type="primary" @click="search()" icon="search" size="large">搜索</a-button>
+                        <router-link to="/article">
+                            <a-button size="large" style="background:#fff;margin-left:10px;" icon='edit'>写新文章</a-button>
+                        </router-link>
+                    </div>
+                </template>
+            </a-table>
+        </a-card>
+    </div>
 </template>
 <script>
 const columns = [{
@@ -60,11 +62,13 @@ const columns = [{
   scopedSlots: { customRender: 'handle' },
 }];
 export default {
+    inject:['reload'],
   	data() {
   	  	return {
   	    	data:[],
   	    	columns,
-  	    	input:''
+            input:'',
+            tableLoading:true,
   	  	}
   	},
   	created(){
@@ -77,8 +81,10 @@ export default {
   	            url: `${this.HOST}/admin/article/index`,
   	            dataType:"json",
   	        }).then(res=>{
+                this.tableLoading = false
   	          	this.data = res.data
   	        }).catch(err=>{
+                this.tableLoading = false
   	          	console.log(err)
   	        })
         },
@@ -139,7 +145,25 @@ export default {
 					article:article
 				}
       		})
-		}
+        },
+        // 状态修改
+        updateState(record) {
+            this.request.request_post(
+                `${this.HOST}/admin/article/updateState`,
+                res=>{
+                    if (res.data.code == 0) {
+                        this.$message.success(res.data.msg)
+                    } else {
+                        this.$message.error(res.data.msg)
+                    }
+      	  	   	    this.search()
+                },
+                e=>{
+                    console.log('网路错误')
+                },
+                {id:record.id}
+            )
+        }
     },
     mounted() {
         this.init();

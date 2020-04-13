@@ -1,16 +1,18 @@
 <template>
   	<div>
       	<a-progress :percent="percent" :style="`display:${show_progress}`"/>
-  		<a-button type="primary" @click="syncMember" size="large" style="margin-top:10px;margin-bottom:20px;">同步会员</a-button>
-  	  	<a-table :columns="columns" :dataSource="data" bordered :pagination="pagination"  @change="handleTableChange">
-  	      	<h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
-  	      	<template slot="image" slot-scope="image">
-  	      	  <img :src="image" style="width:50px;height:50px" />
-  	      	</template>
-  	      	<span slot="handle" slot-scope="text, record">
-  	      	    <!-- <a-button type="primary" @click="edit(record)">编辑</a-button> -->
-  	      	</span>
-  	  	</a-table>
+        <a-card title="微信用户管理" :bordered="false"> 
+  		    <a-button type="primary" @click="syncMember" size="large" style="margin-top:10px;margin-bottom:20px;">同步会员</a-button>
+  	  	    <a-table :loading="tableLoading" :columns="columns" :dataSource="data" bordered :pagination="pagination"  @change="handleTableChange">
+  	          	<h4 slot="name"  slot-scope="text" href="javascript:;">{{text}}</h4>
+  	          	<template slot="image" slot-scope="image">
+  	          	  <img :src="image" style="width:50px;height:50px" />
+  	          	</template>
+  	          	<span slot="handle" slot-scope="text, record">
+  	          	    <!-- <a-button type="primary" @click="edit(record)">编辑</a-button> -->
+  	          	</span>
+  	  	    </a-table>
+        </a-card>
   	</div>
 </template>
 <script>
@@ -31,19 +33,20 @@ const columns = [{
 }, {
     title: '性别',
     dataIndex: 'member_sex',
-    width: 150,
+    width: 80,
 }, {
     title: 'openid',
     dataIndex: 'wechat_openid',
-    width: 250,
+    width: 280,
 }, {
     title: '地区',
     dataIndex: 'area',
-    width: 200,
+    width: 180,
 }, {
     title: '是否关注',
     dataIndex: 'is_subscribe_text',
     width: 100,
+    align:'center'
 }, {
     title: '关注时间',
     dataIndex: 'subscribe_time',
@@ -66,13 +69,15 @@ export default {
 			},
 			// process
       		show_progress:'none',
-      		percent:0,
+            percent:0,
+            tableLoading:true
         }
     },
     created(){
         this.request.request_get(
             `${this.request.base_url}/wechat_admin/wechat_member/get`,
             res=>{
+                this.tableLoading = false;
                 this.data = res.data.data
                 this.pagination = {
 					total:parseInt(res.data.paginate.count),
@@ -81,6 +86,7 @@ export default {
 					defaultPageSize:parseInt(res.data.paginate.pageSize)
                 }
   	        },err=>{
+                this.tableLoading = false;
   	            this.$message.error('网络错误')
   	        }
         )
