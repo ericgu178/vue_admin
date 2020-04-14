@@ -8,8 +8,8 @@ module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: 'static', // 编译输出的二级目录
+    assetsPublicPath: '/', // 编译发布的根目录，可配置为资源服务器域名或 CDN 域名
     proxyTable: {
       '/api':{
         target:'http://127.0.0.1/ericgu178/public/index.php',
@@ -46,7 +46,7 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../vue_admin/index.html'),
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../vue_admin'),
@@ -56,10 +56,10 @@ module.exports = {
     /**
      * Source Maps
      */
-
+    // 是否为生产环境构建生成 source map
     productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
-    devtool: '#source-map',
+    devtool: 'cheap-module-source-map', // 映射业务代码,第三方包、库
 
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

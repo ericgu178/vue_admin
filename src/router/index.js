@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 const base_title = 'EricGU178个人后台管理'
 export default new Router({
+    mode: 'history', // 改变模式
     routes: [
         {
             path: '/',
