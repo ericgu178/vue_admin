@@ -39,6 +39,14 @@ export default new Router({
                     }
                 },
                 {
+                    path:'edit_article',
+                    component: resolve => require(['../pages/main/blog/article_edit.vue'], resolve),
+                    meta:{
+                        title:`文章修改`,
+                        title_desc:`文章修改 | ${base_title}`
+                    }
+                },
+                {
                     path:'comments',
                     component: resolve => require(['../pages/main/blog/comments.vue'], resolve),
                     meta:{

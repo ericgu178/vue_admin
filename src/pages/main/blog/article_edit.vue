@@ -10,7 +10,7 @@
                         v-model="input.label_pk_ids"
                         radeonly
                     >
-                        <a-select-option v-for="item in initialize.label" :value="item.id">
+                        <a-select-option v-for="(item,index) in initialize.label" :value="item.id" :key="index">
                             {{item.label_name}}
                         </a-select-option>
                     </a-select>
@@ -40,7 +40,7 @@
                 </a-upload>
                 </a-form-item>
                 <a-form-item label="文章内容" :label-col="{ span:2 }" :wrapper-col="{ span: 22 }">
-                    <mavon-editor ref="md" @imgAdd="imgAdd" style="height: 100%;width:1200px;" @change="markdownSave"></mavon-editor>
+                    <mavon-editor ref="md" @imgAdd="imgAdd" style="height: 100%;width:1200px;" @change="markdownSave" :value="input.wenzhang"></mavon-editor>
                 </a-form-item>
 
                 <a-button size="large" style="margin-left:85px;margin-top:1%;margin-bottom:2%" type="primary" @click="save($event)">保存</a-button>
@@ -56,15 +56,14 @@ import 'mavon-editor/dist/css/index.css'
 
 export default {
     data(){
-      return{
-        initialize:{
-            label:[]
-        },
-        url:this.HOST+"/admin/image/upload",
-        form: this.$form.createForm(this),
-        input:{},
-        loading: false,
-    	    imageUrl: '',
+        return{
+            initialize:{label:[]},
+            url:this.HOST+"/admin/image/upload",
+            form: this.$form.createForm(this),
+            input:{},
+            loading: false,
+            imageUrl: '',
+            editArticile:{}
         }
     },
     name: 'editor',
@@ -72,8 +71,20 @@ export default {
         mavonEditor
     },
     created(){
-        // this.article = this.$route.query.article
-        // console.log(this.article)
+        if (this.$route.query.article.id == undefined) {
+            history.back(-1)
+            return this.$message.error("也许你刷新页面了数据未传入错误！！",5)
+        }
+        this.input = this.$route.query.article
+        var x = [];
+        this.$route.query.article.label_pk_ids.filter(v=>{
+            x.push(v.id)
+        })
+        this.input.label_pk_ids = x // 数组 标签
+        this.input.wenzhang = this.$route.query.article.blog_source_code // 源代码
+        this.imageUrl = this.HOST + this.$route.query.article.material_id.filepath // 图片路径
+        this.input.material_id_edit = this.$route.query.article.material_id.id // 素材id
+        console.log(this.input,this.$route.query)
     },
     methods: {
         init() {
@@ -88,8 +99,8 @@ export default {
             )
         },
         markdownSave (html,render) {
-            this.input.blog_source_code = html // 源代码
-            this.input.blog_content = render
+            this.input.wenzhang = html // 源代码
+            this.input.blog_content = render // 编译后的html代码
         },
         save (e) {
             if (this.input.label_pk_ids == undefined || this.input.label_pk_ids.length == 0) {
@@ -110,7 +121,7 @@ export default {
 
             this.$http({
                 method: 'POST',
-                url: `${this.HOST}/admin/article/add`,
+                url: `${this.HOST}/admin/article/edit`,
                 data:this.input,
                 dataType:"json",
             }).then(res=>{
@@ -148,7 +159,7 @@ export default {
             if (info.file.status === 'done') {
                 if (info.file.response.code==0) {
                     this.imageUrl = info.file.response.url
-                    this.input.material_id = info.file.response.material_id
+                    this.input.material_id_edit = info.file.response.material_id
                 } else {
                     this.$message.error(info.file.response.msg)
                 }

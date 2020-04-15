@@ -89,14 +89,17 @@ export default {
   	        })
         },
       	search(){
+            this.tableLoading = true
         	this.$http({
         	    method: 'Post',
         	    url: `${this.HOST}/admin/article/index`,
         	    dataType:"json",
         	    data:{search:this.input}
         	}).then(res=>{
+                this.tableLoading = false
         	  	this.data = res.data
         	}).catch(err=>{
+                this.tableLoading = false
         	  	console.log(err)
         	})
       	},
