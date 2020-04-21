@@ -11,20 +11,21 @@ function resolve (dir) {
 
 
 module.exports = {
-  context: path.resolve(__dirname, '../'),
-  entry: {
+  context: path.resolve(__dirname, '../'), // 基础目录，绝对路径，用于从配置中解析入口起点(entry point)和 loader
+  entry: { // 入口文件
     app: './src/main.js'
   },
-  output: {
+  output: { // 输出文件包
     path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  resolve: {
+  resolve: { // 解析模块请求的选项
+    // 使用的扩展名
     extensions: ['.js', '.vue', '.json'],
-    alias: {
+    alias: { // 模块别名列表 这也是 @指向src 的原因
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
     }
