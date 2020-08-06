@@ -1,238 +1,83 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-Vue.use(Router)
-const base_title = 'EricGU178个人后台管理'
-export default new Router({
-    mode: 'history', // 改变模式
-    routes: [
-        {
-            path: '/',
-            meta: {
-                title: `首页`,
-                title_desc:`首页 | ${base_title}`
-            },
-            component: resolve => require(['../pages/common/Home.vue'], resolve),
-            redirect:'dashboard', // 重定向到某个页面
-            children:[
-                {
-                    path:'dashboard',
-                    component: resolve => require(['../pages/main/blog/dashboard.vue'], resolve),
-                    meta:{
-                        title:`Dashboard`,
-                        title_desc:`Dashboard | ${base_title}`
-                    }
-                },
-                {
-                    path:'index',
-                    component: resolve => require(['../pages/main/blog/index.vue'], resolve),
-                    meta:{
-                        title:`文章管理`,
-                        title_desc:`文章管理 | ${base_title}`
-                    }
-                },
-                {
-                    path:'article',
-                    component: resolve => require(['../pages/main/blog/article.vue'], resolve),
-                    meta:{
-                        title:`博客添加`,
-                        title_desc:`博客添加 | ${base_title}`
-                    }
-                },
-                {
-                    path:'edit_article',
-                    component: resolve => require(['../pages/main/blog/article_edit.vue'], resolve),
-                    meta:{
-                        title:`文章修改`,
-                        title_desc:`文章修改 | ${base_title}`
-                    }
-                },
-                {
-                    path:'comments',
-                    component: resolve => require(['../pages/main/blog/comments.vue'], resolve),
-                    meta:{
-                        title:`评论管理`,
-                        title_desc:`评论管理 | ${base_title}`
-                    }
-                },
-                {
-                    path:'label',
-                    component: resolve => require(['../pages/main/blog/label.vue'], resolve),
-                    meta:{
-                        title:`标签管理`,
-                        title_desc:`标签管理 | ${base_title}`
-                    }
-                },
-                {
-                    path:'material',
-                    component: resolve => require(['../pages/main/blog/material.vue'],resolve),
-                    meta:{
-                        title:`素材管理`,
-                        title_desc:`素材管理 | ${base_title}`
-                    }
-				},
-            ]
-		},
-/*+====================================================+
- *+				微信路由
- *+====================================================+
- **/
-		{
-			path:'/wechat',
-			component: resolve => require(['../pages/common/Home.vue'], resolve),
-			redirect:'wechat_dashboard',
-			meta:{
-			  	title:`微信首页`,
-			  	title_desc:`微信首页 | ${base_title}`
-			},
-			children:[
-				{
-					path:'wechat_config',
-					component: resolve => require(['../pages/main/wechat/wechat_config.vue'], resolve),
-					meta:{
-					  	title:`微信配置管理`,
-					  	title_desc:`微信配置管理 | ${base_title}`
-					}
-				},
-				{
-					path:'wechat_reply',
-					component: resolve => require(['../pages/main/wechat/wechat_reply.vue'], resolve),
-					meta:{
-					  	title:`关键词回复`,
-					  	title_desc:`关键词回复 | ${base_title}`
-					}
-				},
-				{
-					path:'custom_menu',
-					component: resolve => require(['../pages/main/wechat/wechat_custom_menu.vue'], resolve),
-					meta:{
-					  	title:`自定义菜单`,
-					  	title_desc:`自定义菜单 | ${base_title}`
-					}
-				},
-				{
-					path:'wechat_material',
-					component: resolve => require(['../pages/main/wechat/wechat_material.vue'], resolve),
-					meta:{
-						title:`素材管理`,
-					  	title_desc:`素材管理 | ${base_title}`
-					}
-				},
-				{
-					path:'wechat_member',
-					component: resolve => require(['../pages/main/wechat/wechat_member.vue'], resolve),
-					meta:{
-					  	title:`会员管理`,
-					  	title_desc:`会员管理 | ${base_title}`
-					}
-				},
-				{
-					path:'wechat_dashboard',
-					component: resolve => require(['../pages/main/wechat/wechat_dashboard.vue'], resolve),
-					meta:{
-					  	title:`微信首页`,
-					  	title_desc:`微信首页 | ${base_title}`
-					}
-				}
-			]
-		},
-/*+====================================================+
- *+				系统路由
- *+====================================================+
- **/
-		{
-			path:'/system',
-			component: resolve => require(['../pages/common/Home.vue'], resolve),
-			// redirect:'wechat_dashboard',
-			meta:{
-			  	title:`系统`,
-			  	title_desc:`系统 | ${base_title}`
-			},
-			children:[
-				{
-					path:'menu',
-					component: resolve => require(['../pages/main/system/menu.vue'], resolve),
-					meta:{
-						title:`菜单管理`,
-						title_desc:`菜单管理 | ${base_title}`
-					}
-				},
-				{
-					path:'account',
-					component: resolve => require(['../pages/main/system/account.vue'], resolve),
-					meta:{
-						title:`账户管理`,
-						title_desc:`账户管理 | ${base_title}`
-					}
-				}
-			]
-		},
-/*+====================================================+
- *+				工具路由
- *+====================================================+
- **/
-		{
-			path:'/tool',
-			component: resolve => require(['../pages/common/Home.vue'], resolve),
-			// redirect:'wechat_dashboard',
-			meta:{
-			  	title:`系统`,
-			  	title_desc:`系统 | ${base_title}`
-			},
-			children:[
-				{
-					path:'php',
-					component: resolve => require(['../pages/main/tool/php.vue'], resolve),
-					meta:{
-						title:`php小工具`,
-						title_desc:`php小工具 | ${base_title}`
-					}
-				},
-				{
-					path:'js',
-					component: resolve => require(['../pages/main/tool/js.vue'], resolve),
-					meta:{
-						title:`javascript小工具`,
-						title_desc:`javascript小工具 | ${base_title}`
-					}
-				}
-			]
-		},
-/*+====================================================+
- *+				其他路由
- *+====================================================+
- **/
-        {
-            path: '/login',
-            component: resolve => require(['../pages/login.vue'], resolve),
-            meta:{
-                title:`EricGU178后台登陆`,
-                title_desc:`EricGU178后台登陆`
-            }
-        },
-        // error_pages
-        {
-            path: '/404',
-            component: resolve => require(['../error_pages/404.vue'], resolve),
-            meta:{
-                title:"404 | 啊哦~ 你所访问的页面不存在",
-                title_desc:`404 | 啊哦~ 你所访问的页面不存在`
-            }
-		},
-		{
-            path: '/403',
-            component: resolve => require(['../error_pages/403.vue'], resolve),
-            meta:{
-                title:"403 | 啊哦~ 你所访问的页面不存在",
-                title_desc:`403 | 啊哦~ 你所访问的页面不存在`
-            }
-		},
-		{
-            path: '/302',
-            component: resolve => require(['../error_pages/302.vue'], resolve),
-            meta:{
-                title:"302 | 啊哦~ 你所访问的页面不存在",
-                title_desc:`302 | 啊哦~ 你所访问的页面不存在`
-            }
-        }
-    ]
+import { routers } from './router'
+import { getStore, setStore, removeStore } from '../libs/store'
+// 重复点击相同路由拦截报红错误
+const originalPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
+
+import NProgress from 'nprogress' // 进度条
+import 'nprogress/nprogress.css' //这个样式必须引入
+import { message, notification } from "ant-design-vue/es"; //单独引入message消息提示模块
+// 简单配置
+NProgress.inc(0.2)
+NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
+
+// 页面跳转开始时间
+var startTime
+// 通知跳过的路由
+const passPath = [
+    '/login',
+    '/404',
+    '/403',
+    '/302'
+]
+
+Vue.use(Router);
+
+const RouterConfig = {
+    // mode: 'history',
+    routes: routers
+};
+
+export const router = new Router(RouterConfig);
+
+// 拦截器处理
+router.beforeEach((to, from, next) => {
+    if (to.path == '/login') {
+        removeStore('userinfo');
+    }
+    let userinfo = getStore({ key: 'userinfo' });
+    let toTime = new Date().getTime() / 1000
+    if (userinfo == null && to.path != '/login') {
+        message.info('登录错误，请重新登录')
+        setTimeout(() => {
+            next({ path: '/login' })
+        }, 1000)
+    }
+    console.log(userinfo)
+    if (userinfo && toTime >= userinfo.expire_time && to.path != '/login') {
+        message.info('登录失效，请重新登录')
+        setTimeout(() => {
+            next({ path: '/login' })
+        }, 1000)
+    }
+
+    // userinfo.expire_time = toTime + 1000 * 60 * 60 * 2
+    // localStorage.setItem("userinfo", JSON.stringify(userinfo))
+
+    // 页面不存在
+    // console.log(to)
+    if (to.matched.length == 0) {
+        next({ path: '/404' })
+    }
+
+    startTime = new Date().getTime()
+
+    NProgress.start();
+    next()
 })
+
+router.afterEach((to) => {
+    if (passPath.indexOf(to.path) === -1) {
+        // var consumingTime = new Date().getTime() - startTime
+        // notification.info({
+        //     message: '此次加载页面消耗时间',
+        //     duration:2,
+        //     description: `耗时${consumingTime / 1000}秒`,
+        // });
+    }
+    NProgress.done();
+});

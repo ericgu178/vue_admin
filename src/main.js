@@ -1,23 +1,19 @@
 import Vue from 'vue'
 import App from './App'
-import router from './router'
+import { router } from './router'
 import Antd from "ant-design-vue/es";
 import "ant-design-vue/dist/antd.css";
+import { getStore, setStore, removeStore } from "./libs/store"
+import store from './store'
+
 Vue.use(Antd);
 
-import axios from 'axios';
-Vue.prototype.$http= axios
+Vue.prototype.getStore = getStore;
+Vue.prototype.setStore = setStore;
+Vue.prototype.removeStore = removeStore;
 
-// 注册请求js
-import request from './config/request'
-Vue.prototype.request = request 
-
-// 之前写的 做了一下兼容
-Vue.prototype.HOST = request.base_url
 Vue.config.productionTip = false
 
-// 引入外部页面进度条js
-import './page_process_bar'
 
 import vcolorpicker from 'vcolorpicker'
 Vue.use(vcolorpicker)
@@ -25,16 +21,16 @@ Vue.use(vcolorpicker)
 new Vue({
     el: '#app',
     router,
+    store,
     components: { App },
     template: '<App/>',
-    document:{
-        icon:'',
-        title:'后台管理'
+    document: {
+        icon: '',
+        title: '后台管理'
     },
     watch: {
         $route() {
-            document.title = this.$route.meta.title_desc || '出错了'
+            document.title = this.$route.meta.title || '出错了'
         }
     }
-  
 })
