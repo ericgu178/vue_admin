@@ -1,5 +1,5 @@
 const Cn = {
-    title: '老干部管理',
+    title: 'EricGU178后台管理',
     tag: '标签选项',
     tag1: '关闭当前标签页',
     tag2: '关闭其他标签页',

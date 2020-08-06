@@ -1,5 +1,5 @@
 const Us = {
-    title: 'old people admin',
+    title: 'EricGU178 admin',
     tag: 'tags options',
     tag1: 'close current tags',
     tag2: 'close other tags',

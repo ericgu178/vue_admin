@@ -4,7 +4,7 @@
 
 const common = {
     state: {
-        title: '视频管理'
+        title: 'EricGU178后台管理'
     },
     mutations: {
         SET_TITLE: (state, action) => {

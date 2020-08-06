@@ -39,30 +39,23 @@ export const syncMember = params => {
     return postRequest('/wechat_admin/wechat_member/syncMember', params);
 }
 
-// 标签列表
-export const tagsIndex = params => {
-    return getRequest('/admin/tags/index', params);
-}
-export const tagsAdd = params => {
-    return postRequest('/admin/tags/add', params);
-}
-export const tagsUpdate = params => {
-    return postRequest('/admin/tags/edit', params);
-}
-
-export const tagsSetStatus = params => {
-    return postRequest('/admin/tags/setStatus', params);
-}
-
-
 // 素材
+
 export const getMaterial = params => {
-    return getRequest('/admin/material/get', params);
+    return getRequest('/wechat_admin/wechat_material/get', params);
+}
+export const image_save = params => {
+    return postRequest('/wechat_admin/wechat_material/image_save', params);
+}
+export const syncMaterial = params => {
+    return postRequest('/wechat_admin/wechat_material/syncMaterial', params);
 }
 
-// 保存图片
-export const imageSave = params => {
-    return postRequest('/admin/material/image_save', params);
-
+export const wechatGetMenu = params => {
+    return getRequest('/wechat_admin/wechat_menu/get', params);
 }
+export const release = params => {
+    return postRequest('/wechat_admin/wechat_menu/release', params);
+}
+
 
