@@ -128,12 +128,12 @@ export default {
           subs: [
             {
               icon: "menu-unfold",
-              index: "system/menu",
+              index: "menu",
               title: "菜单管理",
             },
             {
               icon: "user",
-              index: "system/account",
+              index: "account",
               title: "账户管理",
             },
           ],
@@ -145,12 +145,12 @@ export default {
           subs: [
             {
               icon: "rocket",
-              index: "tool/php",
+              index: "php",
               title: "php小工具",
             },
             {
               icon: "customer-service",
-              index: "tool/js",
+              index: "js",
               title: "javascript小工具",
             },
           ],
