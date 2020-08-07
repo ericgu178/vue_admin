@@ -31,7 +31,7 @@
       <a-form>
         <a-form-item label="一级菜单" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">
           <a-select placeholder="Please select a country" v-model="form.pid">
-            <a-select-option v-for="item in pid_list" :value="item.id">{{item.title}}</a-select-option>
+            <a-select-option :key="item.id" v-for="item in pid_list" :value="item.id">{{item.title}}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item label="菜单标题" :label-col="{ span:4 }" :wrapper-col="{ span: 20 }">

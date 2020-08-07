@@ -2,7 +2,7 @@ import { getRequest, postRequest } from "../libs/axios";
 
 
 
-export const upload = 'https://ericgu178.com' + '/admin/material/upload';
+export const upload = 'https://ericgu178.com/admin/material/upload';
 
 
 
