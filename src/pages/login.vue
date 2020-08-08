@@ -96,6 +96,12 @@ export default {
         }
       });
     },
+    async afterLogin() {
+      let userinfo = this.getStore({ key: "userinfo" });
+      let result = await getMenus({ user_id: userinfo.id });
+      this.setStore({ key: "menus", type: "session" }, result.data);
+      this.$store.commit("SET_MENUS", { menus: result.data });
+    },
   },
 };
 </script>

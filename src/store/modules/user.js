@@ -86,7 +86,6 @@ const createComponents = url => {
 const initRouterNode = (routers, data) => {
     for (var item of data) {
         let menu = Object.assign({}, item);
-        // menu.component = import(`@/views/${menu.component}.vue`);
         menu.component = createComponents(menu.component);
 
         if (item.children && item.children.length > 0) {

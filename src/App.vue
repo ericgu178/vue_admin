@@ -9,7 +9,6 @@
 import zh_CN from "ant-design-vue/lib/locale-provider/zh_CN";
 import moment from "moment";
 import "moment/locale/zh-cn";
-import { getMenus } from "@/api/admin";
 
 moment.locale("zh-cn");
 export default {
@@ -22,22 +21,33 @@ export default {
     return {
       isRouterAlive: true,
       locale: zh_CN,
+      localsRoute: "",
     };
   },
+  watch: {
+    $route(to, f) {
+      this.localsRoute = to.path;
+      this.setStore(
+        { key: "localsRoute", type: "session" },
+        { lastRoutes: this.localsRoute }
+      );
+    },
+  },
   created() {
-    // this.init();
+    // 刷新页面 重新渲染菜单实例
+    // const unparseRoutes = this.getStore({ key: "menus", type: "session" });
+    // if (unparseRoutes != null) {
+    //   this.$store.commit("SET_MENUS", {
+    //     menus: unparseRoutes,
+    //     currentRouter: this.getStore({ key: "localsRoute", type: "session" })
+    //       .lastRoutes,
+    //   });
+    // }
   },
   methods: {
     reload() {
       this.isRouterAlive = false;
       this.$nextTick(() => (this.isRouterAlive = true));
-    },
-    async init() {
-      this.isRouterAlive = false;
-      let userinfo = this.getStore({ key: "userinfo" });
-      let result = await getMenus({ user_id: userinfo.id });
-      this.$store.commit("SET_MENUS", { menus: result.data });
-      this.isRouterAlive = true;
     },
   },
 };

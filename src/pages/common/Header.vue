@@ -71,7 +71,6 @@ export default {
     if (userinfo != null) {
       this.user = userinfo.username;
     }
-    console.dir(this.$t);
   },
   methods: {
     logout() {
