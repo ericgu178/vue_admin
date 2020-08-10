@@ -150,6 +150,7 @@ export default {
       editModel: false,
       editForm: {
         permssions: [],
+        name: "",
       },
       //   节点选中的
       allSelectedNodes: [],
