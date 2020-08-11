@@ -35,15 +35,6 @@
         <a-form-model-item label="帐号名">
           <a-input v-model="editForm.name" />
         </a-form-model-item>
-        <a-form-model-item label="单位">
-          <a-select v-model="editForm.unit_id" placeholder="请选择单位" style="width: 120px">
-            <a-select-option
-              :value="item.id"
-              :key="item.id"
-              v-for="item in units"
-            >{{item.unit_name}}</a-select-option>
-          </a-select>
-        </a-form-model-item>
         <a-form-model-item label="角色分配">
           <a-select v-model="editForm.group_id" placeholder="请选择角色" style="width: 120px">
             <a-select-option
@@ -69,15 +60,6 @@
       <a-form-model :model="addForm" :label-col="{span:4}" :wrapper-col="{span:20}">
         <a-form-model-item label="帐号名">
           <a-input v-model="addForm.username" />
-        </a-form-model-item>
-        <a-form-model-item label="单位">
-          <a-select v-model="addForm.unit_id" placeholder="请选择单位" style="width: 120px">
-            <a-select-option
-              :value="item.id"
-              :key="item.id"
-              v-for="item in units"
-            >{{item.unit_name}}</a-select-option>
-          </a-select>
         </a-form-model-item>
         <a-form-model-item label="角色分配">
           <a-select v-model="addForm.group_id" placeholder="请选择角色" style="width: 120px">
@@ -141,9 +123,8 @@ const columns = [
   },
 ];
 
-import { addUser, editUser } from "@/api/admin";
+import { getAdminIndex,getGroup,addUser, editUser } from "@/api/admin";
 
-import { getAdminIndex, getGroup, getAllUnit } from "@/api/index";
 export default {
   data() {
     return {
@@ -261,7 +242,6 @@ export default {
   mounted() {
     this.init();
     this.getGroup();
-    this.getAllUnit();
   },
 };
 </script>

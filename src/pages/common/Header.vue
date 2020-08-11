@@ -75,6 +75,7 @@ export default {
   methods: {
     logout() {
       this.removeStore("userinfo");
+      this.removeStore("menus");
       this.$router.push("/login");
     },
     // 侧边栏折叠

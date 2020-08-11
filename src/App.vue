@@ -35,14 +35,14 @@ export default {
   },
   created() {
     // 刷新页面 重新渲染菜单实例
-    // const unparseRoutes = this.getStore({ key: "menus", type: "session" });
-    // if (unparseRoutes != null) {
-    //   this.$store.commit("SET_MENUS", {
-    //     menus: unparseRoutes,
-    //     currentRouter: this.getStore({ key: "localsRoute", type: "session" })
-    //       .lastRoutes,
-    //   });
-    // }
+    const unparseRoutes = this.getStore({ key: "menus", type: "session" });
+    if (unparseRoutes != null) {
+      this.$store.commit("SET_MENUS", {
+        menus: unparseRoutes,
+        currentRouter: this.getStore({ key: "localsRoute", type: "session" })
+          .lastRoutes,
+      });
+    }
   },
   methods: {
     reload() {

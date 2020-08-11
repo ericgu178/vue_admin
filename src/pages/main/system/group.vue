@@ -136,8 +136,7 @@ const columns = [
     scopedSlots: { customRender: "action" },
   },
 ];
-import { getGroup, getRouter } from "@/api/index";
-import { updateGroup, addGroup } from "@/api/admin";
+import { getGroup, getRouter,updateGroup, addGroup } from "@/api/admin";
 export default {
   inject: ["reload"],
   data() {
@@ -245,7 +244,9 @@ export default {
     },
     // 保存提交
     async saveEdit() {
-      this.editForm.permssions = this.allSelectedNodes;
+      this.editForm.permssion = this.allSelectedNodes.join(',');
+    //   console.log(this.editForm.permssion)
+    //   return;
       let result = await updateGroup(this.editForm);
       this.$message.info(result.msg);
       this.reload();
@@ -254,6 +255,7 @@ export default {
     onCheckTreeData(selectedKeys, e) {
       this.editForm.permssions = selectedKeys;
       this.allSelectedNodes = selectedKeys.concat(e.halfCheckedKeys);
+      console.log(this.allSelectedNodes)
     },
     onCheckTreeData2(selectedKeys, e) {
       this.addForm.permssions = selectedKeys;
@@ -264,8 +266,8 @@ export default {
       if (this.addForm.name.length == 0) {
         return this.$message.error("用户组名称不能为空");
       }
-      this.addForm.permssions = this.allSelectedNodes;
-      if (this.addForm.permssions.length == 0) {
+      this.addForm.permssion = this.allSelectedNodes.join(',');
+      if (this.addForm.permssion.length == 0) {
         return this.$message.error("权限至少勾选一个");
       }
       console.log(this.addForm);

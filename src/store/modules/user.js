@@ -2,61 +2,11 @@
  * 用户登录组件
  */
 
-
-/**
- * 用户登录组件
- */
-
 import { router } from '@/router/index';
-
+import { setStore } from "@/libs/store"
 const user = {
     state: {
-        menus: [
-            {
-                icon: "sound",
-                index: "/index",
-                title: "老干部",
-                subs: [
-                    {
-                        icon: "area-chart",
-                        index: "dashboard",
-                        title: "Dashboard",
-                    },
-                    {
-                        icon: "contacts",
-                        index: "user_index",
-                        title: "用户管理",
-                    },
-                    {
-                        icon: "question",
-                        index: "question_index",
-                        title: "问题管理",
-                    },
-                    {
-                        icon: "gift",
-                        index: "activity",
-                        title: "活动管理",
-                    },
-                ],
-            },
-            {
-                icon: "setting",
-                index: "/wechat",
-                title: "系统",
-                subs: [
-                    {
-                        icon: "setting",
-                        index: "admin_user",
-                        title: "帐号管理",
-                    },
-                    {
-                        icon: "schedule",
-                        index: "unit_index",
-                        title: "单位管理",
-                    },
-                ],
-            },
-        ],
+        menus: [],
         routers: [],
     },
     mutations: {
@@ -71,7 +21,7 @@ const user = {
             state.routers.push(...r);
             router.options.routes.push(...r)
             router.addRoutes(r);
-            router.push({ path: '/index' })
+            router.push({ path: action.currentRouter || '/home' })
             console.log(router.options.routes)
         },
     }
@@ -84,6 +34,7 @@ const createComponents = url => {
 
 // 创建节点
 const initRouterNode = (routers, data) => {
+
     for (var item of data) {
         let menu = Object.assign({}, item);
         menu.component = createComponents(menu.component);

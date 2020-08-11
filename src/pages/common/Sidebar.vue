@@ -16,7 +16,7 @@
       :openKeys="openkeys"
       :selectedKeys="[onRoutes]"
     >
-      <template v-for="item in items">
+      <template v-for="item in $store.state.user.menus">
         <template v-if="item.subs">
           <a-sub-menu :key="item.index">
             <span slot="title">
@@ -51,127 +51,12 @@ export default {
     return {
       isColl: false,
       openkeys: [],
-      items: [
-        {
-          icon: "desktop",
-          index: "/blog",
-          title: "博客",
-          subs: [
-            {
-              icon: "area-chart",
-              index: "dashboard",
-              title: "Dashboard",
-            },
-            {
-              icon: "file-word",
-              index: "index",
-              title: "文章管理",
-            },
-            {
-              icon: "message",
-              index: "comments",
-              title: "评论管理",
-            },
-            {
-              icon: "tags",
-              index: "label",
-              title: "标签管理",
-            },
-            {
-              icon: "folder",
-              index: "material",
-              title: "素材管理",
-            },
-          ],
-        },
-        {
-          icon: "wechat",
-          index: "/wechat",
-          title: "微信",
-          subs: [
-            {
-              icon: "setting",
-              index: "wechat_config",
-              title: "微信配置管理",
-            },
-            {
-              icon: "area-chart",
-              index: "wechat_dashboard",
-              title: "微信首页",
-            },
-            {
-              icon: "file-word",
-              index: "wechat_reply",
-              title: "关键词回复",
-            },
-            {
-              icon: "menu-unfold",
-              index: "custom_menu",
-              title: "自定义菜单",
-            },
-            {
-              icon: "folder",
-              index: "wechat_material",
-              title: "素材管理",
-            },
-            {
-              icon: "user",
-              index: "wechat_member",
-              title: "会员管理",
-            },
-          ],
-        },
-        {
-          icon: "setting",
-          index: "/system",
-          title: "系统",
-          subs: [
-            {
-              icon: "menu-unfold",
-              index: "menu",
-              title: "菜单管理",
-            },
-            {
-              icon: "user",
-              index: "account",
-              title: "账户管理",
-            },
-          ],
-        },
-        {
-          icon: "tool",
-          index: "/tool",
-          title: "小工具",
-          subs: [
-            {
-              icon: "rocket",
-              index: "php",
-              title: "php小工具",
-            },
-            {
-              icon: "customer-service",
-              index: "js",
-              title: "javascript小工具",
-            },
-          ],
-        },
-        {
-          icon: "frown",
-          index: "403",
-          title: "403",
-        },
-        {
-          icon: "frown",
-          index: "302",
-          title: "302重定向",
-        },
-      ],
     };
   },
   methods: {
     // 跳转
     titleClick: function (res) {
-      this.$router.push({ path: `/${res}` });
+      this.$router.push({ path: res });
     },
     onOpenChange: function (res) {
       if (res[1]) {
@@ -188,21 +73,24 @@ export default {
   computed: {
     // 计算当前路由的地址 改变 菜单中选中状态
     onRoutes() {
-      let openKey = this.$route.path.replace("/", "");
-      for (let i = 0; i < this.items.length; i++) {
-        if (this.items[i].subs) {
-          for (let j = 0; j < this.items[i].subs.length; j++) {
-            if (openKey == this.items[i].subs[j].index) {
-              this.openkeys = [this.items[i].index];
+      let openKey = this.$route.path;
+      for (let i = 0; i < this.$store.state.user.menus.length; i++) {
+        if (this.$store.state.user.menus[i].subs) {
+          for (
+            let j = 0;
+            j < this.$store.state.user.menus[i].subs.length;
+            j++
+          ) {
+            if (openKey == this.$store.state.user.menus[i].subs[j].index) {
+              this.openkeys = [this.$store.state.user.menus[i].index];
             }
           }
         }
       }
-      return this.$route.path.replace("/", "");
+      return this.$route.path;
     },
   },
   created() {
-    // 通过bars.js通信
     bars.$on("isColl", (msg) => {
       this.isColl = msg;
     });

@@ -57,6 +57,7 @@
   </div>
 </template>
 <script>
+import { getMenus } from "@/api/admin";
 import { login } from "@/api/index";
 export default {
   data() {
@@ -82,14 +83,9 @@ export default {
           });
           if (result.code == 0) {
             this.$message.success(result.msg);
-            userinfo = {
-              username: result.data.username,
-              expire_time: result.data.expire_time,
-            };
-            this.setStore({ key: "userinfo" }, userinfo);
-            setTimeout(() => {
-              this.$router.push("/dashboard");
-            }, 2000);
+            result.data.userinfo.expire_time = result.data.expire_time;
+            this.setStore({ key: "userinfo" }, result.data.userinfo);
+            this.afterLogin();
           } else {
             this.$message.error(result.msg);
           }

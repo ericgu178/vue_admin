@@ -91,7 +91,7 @@
   </div>
 </template>
 <script>
-import { getRouter } from "@/api/index";
+import { getRouter } from "@/api/admin";
 
 import { getRole, addRole, editRole, deleteRole } from "@/api/admin";
 export default {

@@ -38,6 +38,7 @@ export const router = new Router(RouterConfig);
 router.beforeEach((to, from, next) => {
     if (to.path == '/login') {
         removeStore('userinfo');
+        removeStore('menus');
     }
     let userinfo = getStore({ key: 'userinfo' });
     let toTime = new Date().getTime() / 1000
@@ -47,7 +48,6 @@ router.beforeEach((to, from, next) => {
             next({ path: '/login' })
         }, 1000)
     }
-    console.log(userinfo)
     if (userinfo && toTime >= userinfo.expire_time && to.path != '/login') {
         message.info('登录失效，请重新登录')
         setTimeout(() => {
