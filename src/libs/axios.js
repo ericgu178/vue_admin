@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getStore, setStore } from './store'
-let base = process.env.NODE_ENV == 'development' ? 'https://ericgu178.com' : 'https://ericgu178.com'; // 基础url
+let base = process.env.NODE_ENV == 'development' ? 'https://api.ericgu178.com' : 'https://api.ericgu178.com'; // 基础url
 
 axios.defaults.timeout = 15000;
 
