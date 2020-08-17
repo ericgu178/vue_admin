@@ -2,11 +2,12 @@ import { getRequest, postRequest } from "../libs/axios";
 
 
 
-export const upload = 'https://ericgu178.com/admin/material/upload';
+export const upload = 'https://api.ericgu178.com/admin/material/upload';
+export const imgUpload = 'https://api.ericgu178.com/admin/image/upload';
 
-
-
-
+export const uploadMarkDownImg = params => {
+    return postRequest('/admin/image/upload', params);
+}
 
 // 后台用户相关
 export const login = params => {
@@ -91,5 +92,8 @@ export const getMaterial = params => {
 // 保存图片
 export const imageSave = params => {
     return postRequest('/admin/material/image_save', params);
-
+}
+// 添加文章
+export const addArticle = params => {
+    return postRequest('/admin/article/add', params);
 }

@@ -72,14 +72,14 @@
 <script>
 import { mavonEditor } from "mavon-editor";
 import "mavon-editor/dist/css/index.css";
-
+import { tagsIndex , addArticle,imgUpload,uploadMarkDownImg} from "@/api/index"
 export default {
   data() {
     return {
       initialize: {
         label: [],
       },
-      url: this.HOST + "/admin/image/upload",
+      url: imgUpload,
       form: this.$form.createForm(this),
       input: {},
       loading: false,
@@ -95,22 +95,16 @@ export default {
     // console.log(this.article)
   },
   methods: {
-    init() {
-      this.request.request_get(
-        `${this.HOST}/admin/article/getLabels`,
-        (res) => {
-          this.initialize.label = res.data.label;
-        },
-        (err) => {
-          this.$message.error("网络错误");
-        }
-      );
+    async init() {
+      let res = await tagsIndex();
+      console.log(res)
+      this.initialize.label = res;
     },
     markdownSave(html, render) {
       this.input.blog_source_code = html; // 源代码
       this.input.blog_content = render;
     },
-    save(e) {
+    async save(e) {
       if (
         this.input.label_pk_ids == undefined ||
         this.input.label_pk_ids.length == 0
@@ -141,30 +135,20 @@ export default {
       ) {
         return this.$message.info("文章不写不能提交！");
       }
-
-      this.$http({
-        method: "POST",
-        url: `${this.HOST}/admin/article/add`,
-        data: this.input,
-        dataType: "json",
-      })
-        .then((res) => {
-          if (res.data.code == 0) {
-            this.$message.success(res.data.msg);
+        this.input.label_pk_ids = this.input.label_pk_ids.join(',')
+      let res = await addArticle(this.input)
+        if (res.code == 0) {
+            this.$message.success(res.msg);
             this.$router.push({ path: "/index" });
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        })
-        .catch((err) => {
-          this.$message.error("网络错误");
-        });
+        } else {
+            this.$message.error(res.msg);
+        }
     },
     back() {
       this.$router.go(-1);
     },
     beforeUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      const isJPG = file.type.match(/png|jpg|jpeg|bmp/);
       if (!isJPG) {
         this.$message.error("上传图片兄弟！", 4);
       }
@@ -175,7 +159,6 @@ export default {
       return isJPG && isLt2M;
     },
     handleChange(info) {
-      console.log(info.file.response.url);
       if (info.file.status === "uploading") {
         this.loading = true;
         return;
@@ -191,25 +174,18 @@ export default {
       }
     },
     // 添加图片
-    imgAdd: function (file, fileinfo) {
-      let formdata = new FormData();
-      formdata.append("file", fileinfo);
-      this.request.request_post(
-        `${this.HOST}/admin/image/upload`,
-        (res) => {
-          if (res.data.code == 0) {
-            this.$refs.md.$img2Url(file, res.data.url);
+    imgAdd: async function (file, fileinfo) {
+        let formdata = new FormData();
+        formdata.append("file", fileinfo);
+        let res = await uploadMarkDownImg(formdata);
+        if (res.code == 0) {
+            this.$refs.md.$img2Url(file, res.url);
             this.$message.success("上传成功");
             return;
-          }
-          this.$message.error(res.data.msg);
-        },
-        (error) => {
-          this.$message.error("出现错误");
-        },
-        formdata,
-        { "Content-Type": "multipart/form-data" }
-      );
+        }
+        this.$message.error(res.msg);
+     
+        // { "Content-Type": "multipart/form-data" }
     },
   },
   mounted() {
