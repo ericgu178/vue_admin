@@ -90,14 +90,9 @@ export default {
   components: {
     mavonEditor,
   },
-  created() {
-    // this.article = this.$route.query.article
-    // console.log(this.article)
-  },
   methods: {
     async init() {
       let res = await tagsIndex();
-      console.log(res)
       this.initialize.label = res;
     },
     markdownSave(html, render) {
@@ -105,38 +100,23 @@ export default {
       this.input.blog_content = render;
     },
     async save(e) {
-      if (
-        this.input.label_pk_ids == undefined ||
-        this.input.label_pk_ids.length == 0
-      ) {
-        return this.$message.info("请选择至少一个标签！");
-      }
-      if (
-        this.input.blog_title == undefined ||
-        this.input.blog_title.length == 0
-      ) {
-        return this.$message.info("请填写你的博客标题！");
-      }
-      if (
-        this.input.blog_describe == undefined ||
-        this.input.blog_describe.length == 0
-      ) {
-        return this.$message.info("文章简介请写一下！");
-      }
-      if (
-        this.input.material_id == undefined ||
-        this.input.material_id.length == 0
-      ) {
-        return this.$message.info("请上传你的文章首页图片！");
-      }
-      if (
-        this.input.blog_content == undefined ||
-        this.input.blog_content.length == 0
-      ) {
-        return this.$message.info("文章不写不能提交！");
-      }
-        this.input.label_pk_ids = this.input.label_pk_ids.join(',')
-      let res = await addArticle(this.input)
+        if (this.input.label_pk_ids == undefined || this.input.label_pk_ids.length == 0) {
+            return this.$message.info("请选择至少一个标签！");
+        }
+        if (this.input.blog_title == undefined || this.input.blog_title.length == 0) {
+            return this.$message.info("请填写你的博客标题！");
+        }
+        if (this.input.blog_describe == undefined || this.input.blog_describe.length == 0) {
+            return this.$message.info("文章简介请写一下！");
+        }
+        if (this.input.material_id == undefined || this.input.material_id.length == 0) {
+            return this.$message.info("请上传你的文章首页图片！");
+        }
+        if (this.input.blog_content == undefined || this.input.blog_content.length == 0) {
+            return this.$message.info("文章不写不能提交！");
+        }
+        this.input.label_pk_ids = this.input.label_pk_ids.join(',');
+        let res = await addArticle(this.input)
         if (res.code == 0) {
             this.$message.success(res.msg);
             this.$router.push({ path: "/index" });
@@ -184,8 +164,6 @@ export default {
             return;
         }
         this.$message.error(res.msg);
-     
-        // { "Content-Type": "multipart/form-data" }
     },
   },
   mounted() {

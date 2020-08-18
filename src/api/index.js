@@ -1,4 +1,4 @@
-import { getRequest, postRequest } from "../libs/axios";
+import { getRequest, postRequest,uploadRequest } from "../libs/axios";
 
 
 
@@ -6,7 +6,7 @@ export const upload = 'https://api.ericgu178.com/admin/material/upload';
 export const imgUpload = 'https://api.ericgu178.com/admin/image/upload';
 
 export const uploadMarkDownImg = params => {
-    return postRequest('/admin/image/upload', params);
+    return uploadRequest('/admin/image/upload', params);
 }
 
 // 后台用户相关
@@ -96,4 +96,14 @@ export const imageSave = params => {
 // 添加文章
 export const addArticle = params => {
     return postRequest('/admin/article/add', params);
+}
+
+// 添加文章
+export const editArticle = params => {
+    return postRequest('/admin/article/edit', params);
+}
+
+// 添加文章
+export const updateArticleState = params => {
+    return postRequest('/admin/article/updateState', params);
 }

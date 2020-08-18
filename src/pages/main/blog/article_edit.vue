@@ -53,12 +53,13 @@
 
 import {mavonEditor} from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import { tagsIndex , editArticle,imgUpload,uploadMarkDownImg} from "@/api/index"
 
 export default {
     data(){
         return{
             initialize:{label:[]},
-            url:this.HOST+"/admin/image/upload",
+            url:imgUpload,
             form: this.$form.createForm(this),
             input:{},
             loading: false,
@@ -71,38 +72,32 @@ export default {
         mavonEditor
     },
     created(){
-        if (this.$route.query.article.id == undefined) {
+        let article = JSON.parse(this.$route.query.article)
+        if (article.id == undefined) {
             history.back(-1)
             return this.$message.error("也许你刷新页面了数据未传入错误！！",5)
         }
-        this.input = this.$route.query.article
+        this.input = article
         var x = [];
-        this.$route.query.article.label_pk_ids.filter(v=>{
+        article.label_pk_ids.filter(v=>{
             x.push(v.id)
         })
         this.input.label_pk_ids = x // 数组 标签
-        this.input.wenzhang = this.$route.query.article.blog_source_code // 源代码
-        this.imageUrl = this.HOST + this.$route.query.article.material_id.filepath // 图片路径
-        this.input.material_id_edit = this.$route.query.article.material_id.id // 素材id
+        this.input.wenzhang = article.blog_source_code // 源代码
+        this.imageUrl = this.$store.state.common.baseUrl + article.material_id.filepath // 图片路径
+        this.input.material_id_edit = article.material_id.id // 素材id
         console.log(this.input,this.$route.query)
     },
     methods: {
-        init() {
-            this.request.request_get(
-                `${this.HOST}/admin/article/getLabels`,
-                res=>{
-                    this.initialize.label = res.data.label
-                },
-                err=>{
-                    this.$message.error('网络错误')
-                }
-            )
+        async init() {
+            let res = await tagsIndex();
+            this.initialize.label = res;
         },
         markdownSave (html,render) {
             this.input.wenzhang = html // 源代码
             this.input.blog_content = render // 编译后的html代码
         },
-        save (e) {
+        async save (e) {
             if (this.input.label_pk_ids == undefined || this.input.label_pk_ids.length == 0) {
                 return this.$message.info("请选择至少一个标签！")
             }
@@ -119,34 +114,26 @@ export default {
                 return this.$message.info("文章不写不能提交！")
             }
 
-            this.$http({
-                method: 'POST',
-                url: `${this.HOST}/admin/article/edit`,
-                data:this.input,
-                dataType:"json",
-            }).then(res=>{
-                if (res.data.code==0) {
-                    this.$message.success(res.data.msg)
-                    this.$router.push({path:'/index'})
-                } else {
-                    this.$message.error(res.data.msg)
-                }
-            }).catch(err=>{
-                this.$message.error('网络错误')
-            })
-
+            this.input.label_pk_ids = this.input.label_pk_ids.join(',');
+            let res = await editArticle(this.input)
+            if (res.code == 0) {
+                this.$message.success(res.msg);
+                this.$router.push({ path: "/index" });
+            } else {
+                this.$message.error(res.msg);
+            }
         },
         back(){
             this.$router.go(-1);
         },
         beforeUpload (file) {
-            const isJPG = file.type === 'image/jpeg'
+            const isJPG = file.type.match(/png|jpg|jpeg|bmp/);
             if (!isJPG) {
                 this.$message.error('上传图片兄弟！',4)
             }
-            const isLt2M = file.size / 1024 / 1024 < 2
+            const isLt2M = file.size / 1024 / 1024 < 5
             if (!isLt2M) {
-                this.$message.error('大小不超过 2MB 兄弟!',4)
+                this.$message.error('大小不超过 5MB 兄弟!',4)
             }
             return isJPG && isLt2M
         },
@@ -167,26 +154,17 @@ export default {
             }
         },
         // 添加图片
-        imgAdd:function(file,fileinfo) {
-            let formdata = new FormData()
-            formdata.append('file',fileinfo)
-            this.request.request_post(
-                `${this.HOST}/admin/image/upload`,
-                res=>{
-                    if(res.data.code == 0) {
-                        this.$refs.md.$img2Url(file,res.data.url)
-                        this.$message.success('上传成功')
-                        return 
-                    }
-                    this.$message.error(res.data.msg)
-                },
-                error=>{
-                    this.$message.error('出现错误')
-                },
-                formdata,
-                {'Content-Type': 'multipart/form-data'}
-            )
-        }
+        imgAdd: async function (file, fileinfo) {
+            let formdata = new FormData();
+            formdata.append("file", fileinfo);
+            let res = await uploadMarkDownImg(formdata);
+            if (res.code == 0) {
+                this.$refs.md.$img2Url(file, res.url);
+                this.$message.success("上传成功");
+                return;
+            }
+            this.$message.error(res.msg);
+        },
     },
     mounted() {
         this.init()

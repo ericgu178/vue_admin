@@ -4,7 +4,8 @@
 
 const common = {
     state: {
-        title: 'EricGU178后台管理'
+        title: 'EricGU178后台管理',
+        baseUrl:'https://api.ericgu178.com'
     },
     mutations: {
         SET_TITLE: (state, action) => {

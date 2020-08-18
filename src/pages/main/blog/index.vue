@@ -99,7 +99,7 @@ const columns = [
     scopedSlots: { customRender: "handle" },
   },
 ];
-import { getArticle, setBanner } from "@/api/index";
+import { getArticle, setBanner,updateArticleState  } from "@/api/index";
 export default {
   inject: ["reload"],
   data() {
@@ -123,31 +123,39 @@ export default {
   created() {},
   methods: {
     async init() {
-      let result = await getArticle();
-      this.tableLoading = false;
-      this.data = result.data;
-      this.pagination.total = result.total;
-      this.pagination.current = result.page;
+        let result = await getArticle();
+        this.tableLoading = false;
+        result.data.filter(item=>{
+            item.key = item.id
+        })
+        this.data = result.data;
+        this.pagination.total = result.total;
+        this.pagination.current = result.page;
     },
     async getList(page) {
-      this.tableLoading = true;
-      let result = await getArticle({
-        page: page,
-        search: this.input,
-      });
-      this.tableLoading = false;
-
-      this.data = result.data;
-      this.pagination.total = result.total;
-      this.pagination.current = result.page;
+        this.tableLoading = true;
+        let result = await getArticle({
+            page: page,
+            search: this.input,
+        });
+        this.tableLoading = false;
+        result.data.filter(item=>{
+            item.key = item.id
+        })
+        this.data = result.data;
+        this.pagination.total = result.total;
+        this.pagination.current = result.page;
     },
     async search() {
-      this.tableLoading = true;
-      let result = await getArticle({ search: this.input });
-      this.tableLoading = false;
-      this.data = result.data;
-      this.pagination.total = result.total;
-      this.pagination.current = result.page;
+        this.tableLoading = true;
+        let result = await getArticle({ search: this.input });
+        result.data.filter(item=>{
+            item.key = item.id
+        })
+        this.tableLoading = false;
+        this.data = result.data;
+        this.pagination.total = result.total;
+        this.pagination.current = result.page;
     },
     deleted: function (id) {
       this.data.filter((item) => {
@@ -180,30 +188,17 @@ export default {
       // this.$message.error('')
     },
     edit: function (article) {
-      this.$router.push({
-        path: "/edit_article",
-        query: {
-          article: article,
-        },
-      });
+        this.$router.push({ path: "/edit_article",query: { article: JSON.stringify(article)} });
     },
     // 状态修改
-    updateState(record) {
-      this.request.request_post(
-        `${this.HOST}/admin/article/updateState`,
-        (res) => {
-          if (res.data.code == 0) {
-            this.$message.success(res.data.msg);
-          } else {
-            this.$message.error(res.data.msg);
-          }
-          this.search();
-        },
-        (e) => {
-          console.log("网路错误");
-        },
-        { id: record.id }
-      );
+    async updateState(record) {
+        let res = await updateArticleState({id:record.id});
+        if (res.code == 0) {
+            this.$message.success(res.msg);
+        } else {
+            this.$message.error(res.msg);
+        }
+        this.search();
     },
   },
   mounted() {

@@ -45,3 +45,19 @@ export const postRequest = (url, params = {}) => {
         });
     });
 };
+
+// 上传图片
+export const uploadRequest = (url, params = {}) => {
+    return axios({
+        method: 'post',
+        url: `${base}${url}`,
+        data: params,
+        headers: {
+            "Content-Type": "multipart/form-data"
+        }
+    }).then(function (response) {
+        return new Promise(function (resolve, reject) {
+            resolve(response.data)
+        });
+    });
+};
