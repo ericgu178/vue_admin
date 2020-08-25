@@ -2,6 +2,7 @@
   <div id="user">
     <a-card title="用户组权限管理" :bordered="false">
       <a-button type="primary" style="margin-bottom:10px;" @click="tianjiazijiedian">添加子节点</a-button>
+      <a-button type="primary" style="margin-bottom:10px;background:#000;color:#f90;font-weight:bold;outline:none" @click="tianjiafujiedian">添加父节点</a-button>
       <div class="main">
         <div class="left">
           <a-alert
@@ -88,6 +89,38 @@
         </a-form-model-item>
       </a-form-model>
     </a-modal>
+
+
+    <a-modal
+      title="添加父节点"
+      :visible="addFatherModel"
+      @ok="addSonRole"
+      ok-text="保存"
+      cancel-text="取消"
+      @cancel="addModel = false"
+    >
+      <a-form-model :model="addSonForm" :label-col="{span:6}" :wrapper-col="{span:16}">
+        <a-form-model-item label="前端组件名称">
+          <a-input v-model="addSonForm.name" />
+        </a-form-model-item>
+        <a-form-model-item label="菜单名称">
+          <a-input v-model="addSonForm.title" />
+        </a-form-model-item>
+        <a-form-model-item label="路由地址">
+          <a-input v-model="addSonForm.path" />
+        </a-form-model-item>
+        <a-form-model-item label="图标">
+          <a-input v-model="addSonForm.icon" style="width: calc(70% - 8px); margin-right: 8px" />
+          <a-button type="primary" style="width:30%" @click="chooseIcon">选择图标</a-button>
+        </a-form-model-item>
+        <a-form-model-item label="前端组件">
+          <a-input v-model="addSonForm.component" />
+        </a-form-model-item>
+        <a-form-model-item label="排序">
+          <a-input-number :min="1" :max="10" v-model="addSonForm.sort_order" />
+        </a-form-model-item>
+      </a-form-model>
+    </a-modal>
   </div>
 </template>
 <script>
@@ -112,6 +145,7 @@ export default {
         pid: 0,
         ptitle: "",
       },
+      addFatherModel:false,
 
       //   添加
 
@@ -156,6 +190,9 @@ export default {
         return this.$message.info("请选择一个父节点");
       }
       this.addModel = true;
+    },
+    tianjiafujiedian() {
+      this.addFatherModel = true;
     },
     async addSonRole() {
       this.addSonForm.pid = this.father.pid;
