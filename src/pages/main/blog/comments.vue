@@ -51,6 +51,16 @@ const columns = [
     width: 150,
   },
   {
+    title: "浏览器",
+    dataIndex: "browser",
+    width: 200,
+  },
+  {
+    title: "操作系统",
+    dataIndex: "os",
+    width: 200,
+  },
+  {
     title: "状态",
     dataIndex: "statusText",
     width: 80,

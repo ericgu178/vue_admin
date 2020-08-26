@@ -15,7 +15,7 @@
               alt
               @click="showImage(item.file_path)"
               class="index_list"
-              onerror="this.src='http://ericgu178.com/static/images/404.jpg'"
+              onerror="this.src='http://api.ericgu178.com/static/images/404.jpg'"
             />
           </a-card>
         </a-list-item>
@@ -37,7 +37,7 @@
         alt
         class="index_list"
         style="width:100%;height:100%"
-        onerror="this.src='http://ericgu178.com/static/images/404.jpg'"
+        onerror="this.src='http://api.ericgu178.com/static/images/404.jpg'"
       />
     </a-modal>
     <!-- 图片模态框 -->
@@ -101,7 +101,7 @@ export default {
         result.data.filter((v) => {
           this.material_list.push({
             create_time: v.create_time,
-            file_path: `https://ericgu178.com/${v.filepath}`,
+            file_path: `https://api.ericgu178.com/${v.filepath}`,
             material_id: v.id,
             loading_state: true,
           });

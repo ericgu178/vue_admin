@@ -97,7 +97,7 @@
       @ok="addSonRole"
       ok-text="保存"
       cancel-text="取消"
-      @cancel="addModel = false"
+      @cancel="addFatherModel = false"
     >
       <a-form-model :model="addSonForm" :label-col="{span:6}" :wrapper-col="{span:16}">
         <a-form-model-item label="前端组件名称">
@@ -200,6 +200,7 @@ export default {
       if (result.code == 0) {
         this.$message.info(result.msg);
         this.addModel = false;
+        this.addFatherModel = false;
         this.reload();
       }
     },
