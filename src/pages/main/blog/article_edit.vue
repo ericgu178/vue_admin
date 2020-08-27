@@ -86,7 +86,6 @@ export default {
         this.input.wenzhang = article.blog_source_code // 源代码
         this.imageUrl = this.$store.state.common.baseUrl + article.material_id.filepath // 图片路径
         this.input.material_id_edit = article.material_id.id // 素材id
-        console.log(this.input,this.$route.query)
     },
     methods: {
         async init() {

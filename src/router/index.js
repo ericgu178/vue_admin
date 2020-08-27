@@ -59,7 +59,6 @@ router.beforeEach((to, from, next) => {
     // localStorage.setItem("userinfo", JSON.stringify(userinfo))
 
     // 页面不存在
-    // console.log(to)
     if (to.matched.length == 0) {
         next({ path: '/404' })
     }

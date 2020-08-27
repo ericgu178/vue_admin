@@ -414,7 +414,6 @@ export default {
     },
     //获取菜单类型 1. view网页类型，2. media_id类型和view_limited类型 3. click点击类型，4.miniprogram表示小程序类型
     selectedMenuType: function () {
-      console.log(this.selectedMenuIndex);
       if (
         this.selectedMenuLevel() == 1 &&
         this.menu.button[this.selectedMenuIndex].sub_button.length == 0

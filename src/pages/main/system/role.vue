@@ -209,13 +209,11 @@ export default {
       this.message = `当前选择编辑：${this.form.title}`;
       this.father.pid = this.form.id;
       this.father.ptitle = this.form.title;
-      console.log(key, node.dataRef.other, this.father);
     },
     chooseIcon() {
       this.$message.info("暂不开放");
     },
     closeAlert(e) {
-      console.log(e);
       this.message = "当前选择编辑：";
       return false;
     },

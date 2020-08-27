@@ -2,7 +2,7 @@ const indexRouter = {
     path: '/',
     meta: { title: `首页`, },
     component: resolve => require(['../pages/common/Home.vue'], resolve),
-    redirect: 'dashboard', // 重定向到某个页面
+    redirect: 'home', // 重定向到某个页面
     children: [
         {path: 'home',meta: {title: `首页`,},component: resolve => require(['../pages/main/home.vue'], resolve)},
         {path: 'article',meta: {title: `博客添加`,},component: resolve => require(['../pages/main/blog/article.vue'], resolve)},

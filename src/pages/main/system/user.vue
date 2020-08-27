@@ -191,7 +191,6 @@ export default {
       this.editForm.name = row.username;
       this.editForm.unit_id = row.unit_id;
       this.editForm.group_id = row.link_auth_user_group[0]["id"];
-      console.log(row);
     },
     async saveEdit() {
       if (this.editForm.name.length == 0) {
@@ -220,7 +219,6 @@ export default {
       if (this.addForm.group_id.length == 0) {
         return this.$message.error("请选择角色信息");
       }
-      console.log(this.addForm);
       let result = await addUser(this.addForm);
       if (result.code == 0) {
         this.addModel = false;

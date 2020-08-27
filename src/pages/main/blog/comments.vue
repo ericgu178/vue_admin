@@ -97,6 +97,7 @@ export default {
       this.data.filter((item) => {
         item.check = item.status == 0 ? true : false;
         item.statusText = item.status == 0 ? "未通过" : "通过";
+        item.key = item.id;
       });
     },
     async adopt(id, blog_article_id, status) {

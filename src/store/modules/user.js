@@ -22,7 +22,6 @@ const user = {
             router.options.routes.push(...r)
             router.addRoutes(r);
             router.push({ path: action.currentRouter || '/home' })
-            console.log(router.options.routes)
         },
     }
 }

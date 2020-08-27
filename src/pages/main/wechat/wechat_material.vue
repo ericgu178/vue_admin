@@ -168,7 +168,6 @@ export default {
     async save_img() {
       const image_list = [];
       this.fileList.filter((v) => {
-        console.log(v);
         var start = v.response.url.indexOf("/uploads");
         v.response.url = v.response.url.substr(start);
         image_list.push({

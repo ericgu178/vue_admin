@@ -154,7 +154,6 @@ export default {
           filepath: v.response.url,
         });
       });
-      console.log(image_list);
       let result = await imageSave({ image_list: JSON.stringify(image_list) });
       if (result.code == 0) {
         this.$message.success(result.msg);

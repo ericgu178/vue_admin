@@ -42,6 +42,9 @@ export default {
         currentRouter: this.getStore({ key: "localsRoute", type: "session" })
           .lastRoutes,
       });
+    } else {
+        this.$message.info('身份无效,请重新登陆获取');
+        this.$router.push({path:'/login'})
     }
   },
   methods: {

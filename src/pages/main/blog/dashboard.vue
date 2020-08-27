@@ -21,10 +21,6 @@ export default {
   },
   mounted() {
     this.init();
-    setTimeout(() => {
-      this.comments();
-      this.views();
-    }, 1500);
   },
   methods: {
     async init() {
@@ -32,6 +28,8 @@ export default {
       this.dates = result.dates;
       this.web_views = result.web_views;
       this.article_comments = result.article_comments;
+      this.comments();
+      this.views();
     },
     comments() {
       // 评论

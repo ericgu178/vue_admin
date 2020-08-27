@@ -255,7 +255,6 @@ export default {
     onCheckTreeData(selectedKeys, e) {
       this.editForm.permssions = selectedKeys;
       this.allSelectedNodes = selectedKeys.concat(e.halfCheckedKeys);
-      console.log(this.allSelectedNodes)
     },
     onCheckTreeData2(selectedKeys, e) {
       this.addForm.permssions = selectedKeys;
@@ -270,7 +269,6 @@ export default {
       if (this.addForm.permssion.length == 0) {
         return this.$message.error("权限至少勾选一个");
       }
-      console.log(this.addForm);
       let result = await addGroup(this.addForm);
       this.$message.info(result.msg);
       this.addModel = false;
