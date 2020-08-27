@@ -43,8 +43,10 @@ export default {
           .lastRoutes,
       });
     } else {
-        this.$message.info('身份无效,请重新登陆获取');
-        this.$router.push({path:'/login'})
+        if (this.getStore({key:'userinfo'})) {
+            this.$message.info('身份无效,请重新登陆获取');
+            this.$router.push({path:'/login'})
+        }
     }
   },
   methods: {
