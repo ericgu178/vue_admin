@@ -43,3 +43,19 @@ export const addUser = params => {
 export const editUser = params => {
     return postRequest('/admin/editAUser', params);
 }
+
+
+export const getPicture = params => {
+    return getRequest('/admin/picture/index',params)
+}
+
+export const addPicture = params => {
+    return postRequest('/admin/picture/add',params)
+}
+
+export const editPicture = params => {
+    return postRequest('/admin/picture/edit',params)
+}
+export const addPictureImage = params => {
+    return postRequest('/admin/picture/addImage',params)
+}
