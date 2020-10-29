@@ -12,7 +12,7 @@
       >
         <h4 slot="name" slot-scope="text" href="javascript:;">{{text}}</h4>
         <span slot="handle" slot-scope="text, record">
-          <a-button type="primary" @click="edit(record)" size="small">编辑</a-button>
+          <a-button type="primary" @click="edit(record)" size="default">编辑</a-button>
           <a-popconfirm
             title="你是否要执行此次操作？"
             @confirm="setBanner(record.id,record.isBanner)"
@@ -20,18 +20,18 @@
             okText="是"
             cancelText="否"
           >
-            <a-button v-if="record.isBanner == 0" size="small" type="primary">设为轮播图</a-button>
-            <a-button v-if="record.isBanner == 1" size="small" type="danger">取消轮播图</a-button>
-            <a-button v-if="record.isBanner == 2" size="small">恢复轮播图</a-button>
+            <a-button v-if="record.isBanner == 0" size="default" type="primary">设为轮播图</a-button>
+            <a-button v-if="record.isBanner == 1" size="default" type="danger">取消轮播图</a-button>
+            <a-button v-if="record.isBanner == 2" size="default">恢复轮播图</a-button>
           </a-popconfirm>
           <a-button
-            size="small"
+            size="default"
             @click="updateState(record)"
             v-show="record.state == 1"
             type="danger"
           >开放观看</a-button>
           <a-button
-            size="small"
+            size="default"
             @click="updateState(record)"
             v-show="record.state == 0"
             type="primary"
@@ -43,7 +43,7 @@
             okText="是"
             cancelText="否"
           >
-            <a-button size="small" type="danger">删除</a-button>
+            <a-button size="default" type="danger">删除</a-button>
           </a-popconfirm>
         </span>
         <template slot="title" slot-scope="currentPageData">
@@ -60,44 +60,13 @@
   </div>
 </template>
 <script>
-const columns = [
-  {
-    title: "ID",
-    dataIndex: "id",
-    width: 60,
-  },
-  {
-    title: "文章标题",
-    dataIndex: "blog_title",
-    width: 300,
-  },
-  {
-    title: "部分内容",
-    dataIndex: "blog_describe",
-    width: 600,
-  },
-  {
-    title: "阅读量",
-    dataIndex: "reads",
-    width: 100,
-  },
-  {
-    title: "评论数",
-    dataIndex: "comments",
-    width: 100,
-  },
-  {
-    title: "创建时间",
-    dataIndex: "create_time",
-    width: 200,
-  },
-  {
-    title: "操作",
-    dataIndex: "handle",
-    fixed: "right",
-    width: 350,
-    scopedSlots: { customRender: "handle" },
-  },
+const columns = [{  title: "ID",  dataIndex: "id",  width: 60},
+    { title: "文章标题",  dataIndex: "blog_title",  width: 300,},
+    { title: "部分内容",  dataIndex: "blog_describe",  width: 600},
+    { title: "阅读量",  dataIndex: "reads",  width: 100},
+    { title: "评论数",  dataIndex: "comments",  width: 100},
+    { title: "创建时间",dataIndex: "create_time",width: 200},
+    { title: "操作",dataIndex: "handle",fixed: "right",width: 450,scopedSlots: { customRender: "handle" }},
 ];
 import { getArticle, setBanner,updateArticleState  } from "@/api/index";
 export default {
@@ -169,26 +138,17 @@ export default {
       });
     },
     async setBanner(id, isbanner) {
-      let result = await setBanner({
-        id: id,
-        isbanner: isbanner,
-      });
-      this.$message.success(result.msg);
-      this.search();
+        let result = await setBanner({id: id,isbanner: isbanner});
+        this.$message.success(result.msg);
+        this.search();
     },
     handleTableChange(pagination, filters, sorter) {
-      console.log(pagination);
+        console.log(pagination);
     },
-    confirm(e) {
-      // console.log(e)
-      // this.$message.success('Click on Yes')
-    },
-    cancel(e) {
-      // console.log(e)
-      // this.$message.error('')
-    },
+    confirm(e) {},
+    cancel(e) {},
     edit: function (article) {
-        this.$router.push({ path: "/edit_article",query: { article: JSON.stringify(article)} });
+        return this.$router.push({ path: '/edit_article',query: { article: JSON.stringify(article)} });
     },
     // 状态修改
     async updateState(record) {
