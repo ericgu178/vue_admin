@@ -7,34 +7,29 @@
  * @标签组件
  -->
 <template>
-  <div class="tags">
-    <ul>
-      <li
-        class="tags-li"
-        v-for="(item,index) in tagsList"
-        :class="{'active': isActive(item.path)}"
-        :key="index"
-      >
-        <router-link :to="item.path" class="tags-li-title">{{item.title}}</router-link>
-        <span class="tags-li-icon" @click="closeTags(index)">
-          <a-icon type="close" />
-        </span>
-      </li>
-    </ul>
-    <div class="tags-close-box">
-      <a-dropdown>
-        <a-menu slot="overlay" @click="handleMenuClick">
-          <a-menu-item key="1">{{$t('tag1')}}</a-menu-item>
-          <a-menu-item key="2">{{$t('tag2')}}</a-menu-item>
-          <a-menu-item key="3">{{$t('tag3')}}</a-menu-item>
-        </a-menu>
-        <a-button style="margin-left: 8px">
-          {{$t('tag')}}
-          <a-icon type="down" />
-        </a-button>
-      </a-dropdown>
+    <div class="tags">
+        <ul>
+            <li class="tags-li" v-for="(item,index) in tagsList" :class="{'active': isActive(item.path)}" :key="index">
+                <router-link :to="item.path" class="tags-li-title">{{item.title}}</router-link>
+                <span class="tags-li-icon" @click="closeTags(index)">
+                    <a-icon type="close" />
+                </span>
+            </li>
+        </ul>
+        <div class="tags-close-box">
+            <a-dropdown>
+                <a-menu slot="overlay" @click="handleMenuClick">
+                    <a-menu-item key="1">{{$t('tag1')}}</a-menu-item>
+                    <a-menu-item key="2">{{$t('tag2')}}</a-menu-item>
+                    <a-menu-item key="3">{{$t('tag3')}}</a-menu-item>
+                </a-menu>
+                <a-button style="margin-left: 8px">
+                    {{$t('tag')}}
+                    <a-icon type="down" />
+                </a-button>
+            </a-dropdown>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -138,16 +133,14 @@ export default {
   },
 };
 </script>
-
-
-<style>
+<style scoped>
 .tags {
   position: relative;
   height: 37px;
   overflow: hidden;
   background: #fff;
   padding-right: 120px;
-  box-shadow: 0 5px 10px #ddd;
+  box-shadow: 5px 5px 10px #ddd;
 }
 .tags ul {
   box-sizing: border-box;
@@ -190,9 +183,10 @@ export default {
   text-overflow: ellipsis;
   margin-right: 5px;
   color: #666;
+  font-weight: 700;
 }
 .tags-li.active .tags-li-title {
-  color: #000;
+  color: #fff;
 }
 .tags-close-box {
   position: absolute;

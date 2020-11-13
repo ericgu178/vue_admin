@@ -28,7 +28,7 @@ const passPath = [
 Vue.use(Router);
 
 const RouterConfig = {
-    // mode: 'history',
+    mode: 'history',
     routes: routers
 };
 
@@ -36,7 +36,6 @@ export const router = new Router(RouterConfig);
 
 // 拦截器处理
 router.beforeEach((to, from, next) => {
-    console.log(to)
     document.title = to.meta.title || '出错了';
 
     if (to.path == '/login') {
@@ -47,13 +46,13 @@ router.beforeEach((to, from, next) => {
     let toTime = new Date().getTime() / 1000
     if (userinfo == null && to.path != '/login') {
         message.info('登录错误，请重新登录')
-        setTimeout(() => {
+        return setTimeout(() => {
             next({ path: '/login' })
         }, 1000)
     }
     if (userinfo && toTime >= userinfo.expire_time && to.path != '/login') {
         message.info('登录失效，请重新登录')
-        setTimeout(() => {
+        return setTimeout(() => {
             next({ path: '/login' })
         }, 1000)
     }
@@ -73,13 +72,6 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to) => {
-    if (passPath.indexOf(to.path) === -1) {
-        // var consumingTime = new Date().getTime() - startTime
-        // notification.info({
-        //     message: '此次加载页面消耗时间',
-        //     duration:2,
-        //     description: `耗时${consumingTime / 1000}秒`,
-        // });
-    }
+    if (passPath.indexOf(to.path) === -1) {}
     NProgress.done();
 });
