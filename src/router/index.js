@@ -36,6 +36,9 @@ export const router = new Router(RouterConfig);
 
 // 拦截器处理
 router.beforeEach((to, from, next) => {
+    console.log(to)
+    document.title = to.meta.title || '出错了';
+
     if (to.path == '/login') {
         removeStore('userinfo');
         removeStore('menus');

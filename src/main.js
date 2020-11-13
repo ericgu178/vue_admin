@@ -27,10 +27,5 @@ new Vue({
     document: {
         icon: '',
         title: '后台管理'
-    },
-    watch: {
-        $route() {
-            document.title = this.$route.meta.title || '出错了'
-        }
     }
 })

@@ -3,14 +3,15 @@ const Main = () => import('../pages/common/Home.vue')
 const indexRouter = {
     path: '/',
     meta: { title: `首页` },
+    name:'indexRouter',
     component: Main,
-    redirect: 'home', // 重定向到某个页面
+    redirect: '/home', // 重定向到某个页面
     children: [
-        { path: 'home',meta: {title: `首页`,},component: () => import('../pages/main/home.vue') },
-        { path: 'article',meta: {title: `博客添加`,},component: () => import('../pages/main/blog/article.vue')},
-        { path: 'edit_article',meta: {title: `文章修改`,},component: () => import('../pages/main/blog/article_edit.vue')},
-        { path: 'php',meta: {title: `php小工具`,},component: () => import('../pages/main/tool/php.vue')},
-        { path: 'js',meta: {title: `javascript小工具`,},component: () => import('../pages/main/tool/js.vue')},
+        { path: '/home',meta: {title: `首页`,},name:'首页',component: () => import('../pages/main/home.vue') },
+        { path: '/article',meta: {title: `博客添加`,},name:'博客添加',component: () => import('../pages/main/blog/article.vue')},
+        { path: '/edit_article',meta: {title: `文章修改`,},name:'文章修改',component: () => import('../pages/main/blog/article_edit.vue')},
+        { path: '/php',meta: {title: `php小工具`,},name:'php小工具',component: () => import('../pages/main/tool/php.vue')},
+        { path: '/js',meta: {title: `javascript小工具`,},name:'javascript小工具',component: () => import('../pages/main/tool/js.vue')},
     ]
 }
 const login = {

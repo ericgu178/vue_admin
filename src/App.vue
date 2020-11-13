@@ -37,11 +37,10 @@ export default {
     // 刷新页面 重新渲染菜单实例
     const unparseRoutes = this.getStore({ key: "menus", type: "session" });
     if (unparseRoutes != null) {
-      this.$store.commit("SET_MENUS", {
-        menus: unparseRoutes,
-        currentRouter: this.getStore({ key: "localsRoute", type: "session" })
-          .lastRoutes,
-      });
+        this.$store.commit("SET_MENUS", {
+            menus: unparseRoutes,
+            ...this.getStore({ key: "localsRoute", type: "session" })
+        });
     } else {
         if (this.getStore({key:'userinfo'})) {
             this.$message.info('身份无效,请重新登陆获取');

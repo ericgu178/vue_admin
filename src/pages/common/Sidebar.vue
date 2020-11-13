@@ -97,7 +97,11 @@ export default {
   },
 };
 </script>
-
+<style>
+.sidebar .ant-menu-dark, .ant-menu-dark .ant-menu-sub {
+    background: #1a1a1a;
+}
+</style>
 <style scoped>
 .sidebar {
   display: block;

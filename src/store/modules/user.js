@@ -3,7 +3,7 @@
  */
 
 import { router } from '@/router/index';
-import { setStore } from "@/libs/store"
+import { setStore } from "@/libs/store";
 const user = {
     state: {
         menus: [],
@@ -12,16 +12,22 @@ const user = {
     mutations: {
         // 设置菜单和路由
         SET_MENUS: (state, action) => {
-            let result = getChild(action.menus)
+            let result = getChild(action.menus);
             // 左侧菜单
-            state.menus = result
+            state.menus = result;
             // 路由菜单
-            const r = []
-            initRouterNode(r, action.menus)
+            const r = [];
+            initRouterNode(r, action.menus);
             state.routers.push(...r);
-            router.options.routes.push(...r)
+            router.options.routes.push(...r);
             router.addRoutes(r);
-            router.push({ path: action.currentRouter || '/home' })
+            // 这里会出现问题的 路由跳转两次的问题 导致 路由参数消失
+            if (action.lastRoutes && action.lastRoutes != '/edit_article') {
+                console.log(123)
+                router.push({path:action.lastRoutes});
+            } else if (!action.lastRoutes) {
+                router.push({path:'/home'});
+            }
         },
     }
 }
