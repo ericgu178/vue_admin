@@ -107,3 +107,8 @@ export const editArticle = params => {
 export const updateArticleState = params => {
     return postRequest('/admin/article/updateState', params);
 }
+
+// 压缩图片
+export const zips = params => {
+    return postRequest('/admin/image/toZip',params);
+}

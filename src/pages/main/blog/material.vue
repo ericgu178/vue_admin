@@ -31,14 +31,13 @@
       />
     </a-card>
     <!-- 模态框 -->
-    <a-modal v-model="visible" okText="复制图片链接" cancelText="关闭" @ok="copy_filepath">
-      <img
-        :src="show_filepath"
-        alt
-        class="index_list"
-        style="width:100%;height:100%"
-        onerror="this.src='http://api.ericgu178.com/static/images/404.jpg'"
-      />
+    <a-modal v-model="visible">
+        <template slot="footer">
+            <a-button type="default" @click="visible = false">关闭</a-button>
+            <a-button type="primary" @click="zips">压缩图片</a-button>
+            <a-button type="primary" @click="copy_filepath">复制图片链接</a-button>
+        </template>
+        <img :src="show_filepath" alt class="index_list" style="width:100%;height:100%" onerror="this.src='http://api.ericgu178.com/static/images/404.jpg'"/>
     </a-modal>
     <!-- 图片模态框 -->
     <a-modal v-model="img_visible" okText="保存" cancelText="取消" @ok="save_img">
@@ -64,7 +63,7 @@
   </div>
 </template>
 <script>
-import { upload, getMaterial, imageSave } from "@/api/index";
+import { upload, getMaterial, imageSave , zips } from "@/api/index";
 export default {
   inject: ["reload"],
   data() {
@@ -136,7 +135,7 @@ export default {
         result.data.filter((v) => {
           this.material_list.push({
             create_time: v.create_time,
-            file_path: `https://ericgu178.com/${v.filepath}`,
+            file_path: `https://api.ericgu178.com/${v.filepath}`,
             material_id: v.id,
             loading_state: true,
           });
@@ -173,6 +172,12 @@ export default {
     handleChange({ fileList }) {
       this.fileList = fileList;
     },
+    // 压缩
+    async zips() {
+        let res = await zips({img_url:this.show_filepath});
+        this.$message.info(res.msg);
+        this.visible = false;
+    }
   },
 };
 </script>
