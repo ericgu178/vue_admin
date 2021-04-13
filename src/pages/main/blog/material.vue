@@ -186,6 +186,7 @@ export default {
   width: 100%;
   height: 350px;
   cursor: pointer;
+  object-fit:contain
 }
 
 /*图片上传格式*/

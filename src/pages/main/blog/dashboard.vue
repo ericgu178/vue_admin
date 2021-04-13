@@ -3,8 +3,8 @@
   <!-- 图表 -->
   <div class="vol-data">
     <div class="charts" style="width:'100%',height:'8rem'">
-      <div id="views" :style="{width:'100%',height:'300px'}"></div>
-      <div id="comments" :style="{width:'100%',height:'300px',marginTop:'10px'}"></div>
+      <div id="views" :style="{width:'100%',height:'400px'}"></div>
+      <div id="comments" :style="{width:'100%',height:'400px',marginTop:'10px'}"></div>
     </div>
   </div>
 </template>
