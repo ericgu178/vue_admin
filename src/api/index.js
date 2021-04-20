@@ -112,3 +112,8 @@ export const updateArticleState = params => {
 export const zips = params => {
     return postRequest('/admin/image/toZip',params);
 }
+
+// 发送照片
+export const handSend = params => {
+    return postRequest('/crawler/telegram/handSend',params);
+}
