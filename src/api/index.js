@@ -4,6 +4,17 @@ import { getRequest, postRequest,uploadRequest } from "../libs/axios";
 
 export const upload = 'https://api.ericgu178.com/admin/material/upload';
 export const imgUpload = 'https://api.ericgu178.com/admin/image/upload';
+export const wechatBg = 'https://api.ericgu178.com/crawler/Telegram/uploadWechat';
+
+
+/**
+ * 保存微信图片
+ * @param {*} params 
+ * @returns 
+ */
+export const saveWechat = params => {
+    return postRequest('/crawler/Telegram/saveWechat', params);
+}
 
 export const uploadMarkDownImg = params => {
     return uploadRequest('/admin/image/upload', params);
